@@ -1,13 +1,15 @@
 <template>
   <div>
     <span v-if="JSON.stringify(transactionInfo || {}) != '{}'">
-      <div>
+      <div v-if="transactionInfo.contract_address">
         Contract: {{ transactionInfo.contract_address | toBase58 }}
         <TronContractAuthor :contract="transactionInfo.contract_address" />
       </div>
-      <div>
-        {{ transactionInfo.receipt.result | titleCase }}
-        --
+       <div>
+         <span v-if="transactionInfo.receipt.result">
+          {{ transactionInfo.receipt.result | titleCase }}
+          --
+         </span>
         {{ transactionInfo.blockTimeStamp | date }}
         -- 
         Fee: {{ transactionInfo.fee | trx }}
@@ -17,17 +19,21 @@
       </div>
       <div>
       </div>
-      <span v-if="transactionInfo.log.length > 0">
-      <br>
-      Logs:
-      <ul>
-      <li v-for="log in transactionInfo.log" :key="log.id">
-        <TronLog :contract="transactionInfo.contract_address" :value="log" />
-      </li>
-      </ul>
+      <span v-if="transactionInfo.log">
+        <span v-if="transactionInfo.log.length > 0">
+        <br>
+        Logs:
+        <ul>
+        <li v-for="log in transactionInfo.log" :key="log.id">
+          <TronLog :contract="transactionInfo.contract_address" :value="log" />
+        </li>
+        </ul>
+        </span>
       </span>
       <hr>
       <div class="fullDetails">
+        Full request:
+        <Json :value="transaction" />
         Full response:
         <Json :value="transactionInfo" />
       </div>
@@ -50,6 +56,10 @@ export default {
   },
   asyncComputed: {
     async transactionInfo () {
+      const info = await tronExplorer.getTxInfo(this.$store.state.txId);
+      return info;
+    },
+    async transaction () {
       const info = await tronExplorer.getTx(this.$store.state.txId);
       return info;
     }

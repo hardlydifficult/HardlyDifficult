@@ -17,8 +17,21 @@ export default class TronExplorer {
 
   getTx = async function(tx) 
   {
+    if(!tx || tx.length != 64) return undefined;
+    
+    let transactionInfo = await this.tronWeb.trx.getTransaction(tx);
+    return transactionInfo;
+  }
+
+  getTxInfo = async function(tx) 
+  {
+    if(!tx || tx.length != 64) return undefined;
+    
     let transactionInfo = await this.tronWeb.trx.getTransactionInfo(tx);
-    transactionInfo.contract_address = this.toBase58(transactionInfo.contract_address);
+    if(transactionInfo.contract_address)
+    {
+      transactionInfo.contract_address = this.toBase58(transactionInfo.contract_address);
+    }
     return transactionInfo;
   }
   
