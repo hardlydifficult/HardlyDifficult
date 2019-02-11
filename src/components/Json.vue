@@ -6,7 +6,7 @@
 
 export default {
   props: {
-    value: ''
+    value: undefined
   }
 }
 </script>

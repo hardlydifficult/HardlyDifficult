@@ -3,26 +3,34 @@
     <span v-if="JSON.stringify(transactionInfo || {}) != '{}'">
       <div>
         Contract: {{ transactionInfo.contract_address | toBase58 }}
+        <TronContractAuthor :contract="transactionInfo.contract_address" />
       </div>
-      {{ test }}
       <div>
         {{ transactionInfo.receipt.result | titleCase }}
-      </div>
-      <div>
-        result: {{ transactionInfo.contractResult }}
-      </div>
-      <div>
+        --
         {{ transactionInfo.blockTimeStamp | date }}
-      </div>
-      <div>
+        -- 
         Fee: {{ transactionInfo.fee | trx }}
       </div>
-      <div v-for="log in transactionInfo.log" :key="log.id">
-        <hr>
-        Contract: {{ log.address | toBase58 }}
-        <hr>
+      <div>
+        Result: {{ transactionInfo.contractResult }}
       </div>
-      <Json v-model="transactionInfo" />
+      <div>
+      </div>
+      <span v-if="transactionInfo.log.length > 0">
+      <br>
+      Logs:
+      <ul>
+      <li v-for="log in transactionInfo.log" :key="log.id">
+        <TronLog :contract="transactionInfo.contract_address" :value="log" />
+      </li>
+      </ul>
+      </span>
+      <hr>
+      <div class="fullDetails">
+        Full response:
+        <Json :value="transactionInfo" />
+      </div>
     </span>
   </div>
 </template>
@@ -31,19 +39,26 @@
 import TronExplorer from '../logic/tron/TronExplorer.js';
 const tronExplorer = new TronExplorer();
 import Json from './Json.vue';
+import TronLog from './TronLog.vue';
+import TronContractAuthor from './TronContractAuthor.vue';
 
 export default {
   components: {
-    Json
+    Json,
+    TronLog,
+    TronContractAuthor
   },
   asyncComputed: {
     async transactionInfo () {
-      return await tronExplorer.getTx(this.$store.state.txId);
-    }, 
-    async test()
-    {
-      return await tronExplorer.getAbi()
+      const info = await tronExplorer.getTx(this.$store.state.txId);
+      return info;
     }
   },
 }
 </script>
+
+<style>
+.fullDetails {
+  font-size: .75em;
+}
+</style>
