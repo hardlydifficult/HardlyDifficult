@@ -1,16 +1,18 @@
 <template>
   <div>
-    <InputTransaction />
-    <h2>{{$store.state.txId}}</h2>
+    <UserInput />
+    <TronTransaction />
   </div>
 </template>
 
 <script>
-import InputTransaction from './components/InputTransaction.vue'
+import UserInput from './components/UserInput.vue'
+import TronTransaction from './components/TronTransaction.vue'
 
 export default {
   components: {
-    InputTransaction
+    UserInput,
+    TronTransaction
   }
 }
 </script>
