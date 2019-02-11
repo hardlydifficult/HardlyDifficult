@@ -58,19 +58,21 @@ export default class TronExplorer {
       if(event.type != 'Event') continue;
 
       let signature = `${event.name}(`;
-      event.inputs.forEach((input, index) => 
+      if(event.inputs)
       {
-        if(index > 0)
+        event.inputs.forEach((input, index) => 
         {
-          signature += ',';
-        }
+          if(index > 0)
+          {
+            signature += ',';
+          }
 
-        signature += input.type;
-      });
+          signature += input.type;
+        });
+      }
       signature += ')';
-      //console.log(signature);
       const hash = keccak256(this.tronWeb.utils.code.stringToBytes(signature))
-      //console.log(hash.toString());
+      // console.log(`${signature}: ${hash.toString()}`);
       if(hash.toString() == log.topics[0].toString()) 
       {
         let call = `${event.name}(`;
@@ -108,6 +110,130 @@ export default class TronExplorer {
         }
       }
     }
+  }
+
+  parseCall = async function(contractAddress, callData)
+  {
+    let call = {};
+    const abi = (await this.getAbi(contractAddress)).abi.entrys;
+    let entry;
+    for(let i = 0; i < abi.length; i++)
+    {
+      entry = abi[i];
+      if(entry.type != 'Function') continue;
+
+      let signature = `${entry.name}(`;
+      if(entry.inputs)
+      {
+        entry.inputs.forEach((input, index) => 
+        {
+          if(index > 0)
+          {
+            signature += ',';
+          }
+
+          signature += input.type;
+        });
+      }
+      signature += ')';
+      const hash = keccak256(this.tronWeb.utils.code.stringToBytes(signature)).substring(0, 8);
+      if(callData.startsWith(hash))
+      {
+        call.signature = signature;
+        call.function = entry.name;
+        call.params = [];
+        break;
+      }
+    }
+
+    if(entry.inputs)
+    {
+      let pos = 8;
+      pos += 64 * entry.inputs.length;
+      entry.inputs.forEach((input, index) => 
+      {
+        let param = {
+          type: input.type
+        };
+
+        if(input.type.endsWith('[]'))
+        {
+          const arrayLength = new BigNumber(callData.substr(pos, 64), 16).toNumber();
+          pos += 64;
+          param.value = [];
+          for(let i = 0; i < arrayLength; i++)
+          {
+            param.value.push(callData.substr(pos, 64));
+            pos += 64;
+          }
+        }
+        else
+        {
+          param.value = callData.substr(pos, 64);
+          pos += 64;
+        }
+
+        call.params.push(param);
+      });
+    }
+
+    /**
+
+d4207948 -- function identifier, matches start of signature hash
+
+// maybe types?
+00000000000000000000000000000000000000000000000000000000000000a0 // 160 address[]
+0000000000000000000000000000000000000000000000000000000000000120 // 288 uint256[]
+0000000000000000000000000000000000000000000000000000000000000240 // 576 bool[]
+00000000000000000000000000000000000000000000000000000000000002c0 // 704 uint8[]
+0000000000000000000000000000000000000000000000000000000000000300 // 768 bytes32[]
+
+- array(?)
+0000000000000000000000000000000000000000000000000000000000000003 // 3
+ - Address - maker
+000000000000000000000000ac127337ba94be5eb6ce8b901a0ce653cee0cde0
+ - address affiliate
+0000000000000000000000000000000000000000000000000000000000000000
+ - address affiliate
+0000000000000000000000000000000000000000000000000000000000000000
+ - array
+ 0000000000000000000000000000000000000000000000000000000000000008
+ - quote
+ 800000000000000000000000f6ef482dd17493a9c10d2faf72b5538f18b1564d
+ - base
+ 8000000000000000000000006f9ef3a2268e84ac0a91a595b247d763fc6bea83
+ - makerAmount
+ 0000000000000000000000000000000000000000000000000000000037eeca51
+ - rateNumerator
+ 00000000000000000000000000000000000000000000000000000000421667fd
+ - rateDenominator
+ 0000000000000000000000000000000000000000000000000000000000030d40
+ - creationDate
+ 000000000000000000000000000000000000000000000000000000005c60ac7f
+ - expirationDate
+ 000000000000000000000000000000000000000000000000000000005c61fdff
+ - takerAmount
+ 000000000000000000000000000000000000000000000000000000000662de00
+ - array
+ 0000000000000000000000000000000000000000000000000000000000000003
+ - isTakerBuy
+ 0000000000000000000000000000000000000000000000000000000000000000
+ - takerAutoWithdraw
+ 0000000000000000000000000000000000000000000000000000000000000000
+ - makerAutoWithdraw
+ 0000000000000000000000000000000000000000000000000000000000000000
+ - array
+ 0000000000000000000000000000000000000000000000000000000000000001
+ - mV: uint8
+ 000000000000000000000000000000000000000000000000000000000000001c
+ - array
+ 0000000000000000000000000000000000000000000000000000000000000002
+ - mR, mS: bytes32
+9d2d70a7f675856a766d29be28b6e0f739e79a3f167143556d8652979bdeb653
+771c76928dd76883d5bbf5ea6770fbbe277d2b97adbf439852f972101392ee77
+    */
+
+    return call;
   }
 
   format = function(value, type)

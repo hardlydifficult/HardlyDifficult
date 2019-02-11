@@ -15,7 +15,7 @@ Vue.filter('trx', function (value) {
   return new BigNumber(value).div(1000000).toFormat() + ' TRX';
 })
 
-Vue.filter('toBase58', function (value) {
+Vue.filter('address', function (value) {
   if (!value) return ''
   return tronExplorer.toBase58(value);
 })

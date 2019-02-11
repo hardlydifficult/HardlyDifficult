@@ -1,6 +1,6 @@
 <template>
   <span v-if="author">
-    (by {{ author }})
+    (created by {{ author }})
   </span>
 </template>
 
@@ -25,11 +25,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.eventName {
-  font-weight: bold;
-}
-.params {
-}
-</style>

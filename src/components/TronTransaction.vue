@@ -1,68 +1,42 @@
 <template>
-  <div>
-    <span v-if="JSON.stringify(transactionInfo || {}) != '{}'">
-      <div v-if="transactionInfo.contract_address">
-        Contract: {{ transactionInfo.contract_address | toBase58 }}
-        <TronContractAuthor :contract="transactionInfo.contract_address" />
-      </div>
-       <div>
-         <span v-if="transactionInfo.receipt.result">
-          {{ transactionInfo.receipt.result | titleCase }}
-          --
-         </span>
-        {{ transactionInfo.blockTimeStamp | date }}
-        -- 
-        Fee: {{ transactionInfo.fee | trx }}
-      </div>
-      <div>
-        Result: {{ transactionInfo.contractResult }}
-      </div>
-      <div>
-      </div>
-      <span v-if="transactionInfo.log">
-        <span v-if="transactionInfo.log.length > 0">
-        <br>
-        Logs:
-        <ul>
-        <li v-for="log in transactionInfo.log" :key="log.id">
-          <TronLog :contract="transactionInfo.contract_address" :value="log" />
-        </li>
-        </ul>
-        </span>
-      </span>
+  <div v-if="JSON.stringify(tx || {}) != '{}'">
+    <TronTxRequest :tx="tx" />
+    <TronTxReceipt :tx="tx" :txInfo="txInfo" />
+    <div class="fullDetails">
       <hr>
-      <div class="fullDetails">
-        Full request:
-        <Json :value="transaction" />
-        Full response:
-        <Json :value="transactionInfo" />
-      </div>
-    </span>
+      Request:
+      <Json :value="tx" />
+      <span v-if="JSON.stringify(txInfo || {}) != '{}'">
+        Response:
+        <Json :value="txInfo" />
+      </span>
+    </div>
   </div>
 </template>
 
 <script>
 import TronExplorer from '../logic/tron/TronExplorer.js';
 const tronExplorer = new TronExplorer();
+
+import TronTxRequest from './TronTxRequest.vue';
+import TronTxReceipt from './TronTxReceipt.vue';
 import Json from './Json.vue';
-import TronLog from './TronLog.vue';
-import TronContractAuthor from './TronContractAuthor.vue';
 
 export default {
   components: {
+    TronTxRequest,
+    TronTxReceipt,
     Json,
-    TronLog,
-    TronContractAuthor
   },
   asyncComputed: {
-    async transactionInfo () {
-      const info = await tronExplorer.getTxInfo(this.$store.state.txId);
-      return info;
+    async tx () 
+    {
+      return await tronExplorer.getTx(this.$store.state.userInput);
     },
-    async transaction () {
-      const info = await tronExplorer.getTx(this.$store.state.txId);
-      return info;
-    }
+    async txInfo () 
+    {
+      return await tronExplorer.getTxInfo(this.$store.state.userInput);
+    },
   },
 }
 </script>

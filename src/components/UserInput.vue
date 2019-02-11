@@ -1,3 +1,3 @@
 <template>
-  <textarea type="text" v-model="$store.state.txId" />
+  <textarea type="text" v-model="$store.state.userInput" />
 </template>
