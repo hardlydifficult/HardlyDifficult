@@ -28,10 +28,6 @@ export default class TronExplorer {
     if(!tx || tx.length != 64) return undefined;
     
     let transactionInfo = await this.tronWeb.trx.getTransactionInfo(tx);
-    if(transactionInfo.contract_address)
-    {
-      transactionInfo.contract_address = this.toBase58(transactionInfo.contract_address);
-    }
     return transactionInfo;
   }
   
@@ -42,6 +38,15 @@ export default class TronExplorer {
       value = "0x" + value;
     }
     return this.tronWeb.address.fromHex(value);
+  }
+  
+  toHex = function(value)
+  {
+    if(value.length == 40)
+    {
+      value = "0x" + value;
+    }
+    return this.tronWeb.address.toHex(value);
   }
   
   getAbi = async function(address)
@@ -102,7 +107,7 @@ export default class TronExplorer {
         call += ')';
 
         return {
-          address: this.toBase58(log.address),
+          address: '41' + log.address,
           signature,
           call,
           event: event.name,
@@ -137,6 +142,7 @@ export default class TronExplorer {
       }
       signature += ')';
       const hash = keccak256(this.tronWeb.utils.code.stringToBytes(signature)).substring(0, 8);
+      // console.log(`${signature}: ${hash.toString()}`);
       if(callData.startsWith(hash))
       {
         call.signature = signature;

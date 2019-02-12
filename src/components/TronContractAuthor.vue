@@ -1,15 +1,17 @@
 <template>
   <span v-if="author">
-    (created by {{ author }})
+    (created by <DataField :value="author" type="address" />)
   </span>
 </template>
 
 <script>
 import TronExplorer from '../logic/tron/TronExplorer.js';
 const tronExplorer = new TronExplorer();
+import DataField from './DataField.vue';
 
 export default {
   components: {
+    DataField,
   },
   props: {
     contract: undefined

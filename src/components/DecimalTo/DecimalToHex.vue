@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ value }}
+    Decimal to hex: {{ value }}
   </div>
 </template>
 
@@ -10,7 +10,7 @@ const BigNumber = require('bignumber.js');
 export default {
   computed: {
     value() {
-      return new BigNumber(this.$store.state.userInput).toString(16);
+      return '0x' + new BigNumber(this.$store.state.userInput).toString(16);
     }
   }
 }

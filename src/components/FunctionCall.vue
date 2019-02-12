@@ -1,12 +1,17 @@
 <template>
-  <div v-if="name">
-    <span class="eventName">{{ name }}</span>
-    (<span v-for="(param, index) in params" :key="param.value"><span v-if="index > 0">, </span>{{ param.value }}</span>)
-  </div>
+  <span v-if="name" class="functionCall">
+    <span class="eventName">{{ name }}</span>(<span
+      v-for="(param, index) in params" :key="index"><span v-if="index > 0">, </span><DataField :value="param.value" :type="param.type" /></span>)
+  </span>
 </template>
 
 <script>
+import DataField from './DataField.vue';
+
 export default {
+  components: {
+    DataField,
+  },
   props: {
     name: undefined,
     params: undefined
@@ -17,5 +22,8 @@ export default {
 <style>
 .eventName {
   font-weight: bold;
+}
+.functionCall {
+  font-family: monospace
 }
 </style>

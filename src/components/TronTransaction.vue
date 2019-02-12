@@ -3,7 +3,7 @@
     <TronTxRequest :tx="tx" />
     <TronTxReceipt :tx="tx" :txInfo="txInfo" />
     <div class="fullDetails">
-      <hr>
+      <br><hr><br>
       Request:
       <Json :value="tx" />
       <span v-if="JSON.stringify(txInfo || {}) != '{}'">
@@ -11,6 +11,7 @@
         <Json :value="txInfo" />
       </span>
     </div>
+    <br><hr><hr><hr><br>
   </div>
 </template>
 

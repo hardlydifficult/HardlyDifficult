@@ -1,5 +1,5 @@
 <template>
-  <div v-if="count">
+  <div v-if="count" class="characterCount">
     {{ count }} characters
   </div>
 </template>
@@ -16,3 +16,8 @@ export default {
   }
 }
 </script>
+<style>
+.characterCount {
+  font-size: .5em;
+}
+</style>
