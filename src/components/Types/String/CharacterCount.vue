@@ -6,12 +6,13 @@
 
 <script>
 export default {
+  props: {
+    value: undefined
+  },
   computed: {
     count() {
-      if(this.$store.state.userInput)
-      {
-        return this.$store.state.userInput.trim().length;
-      }
+      if(!this.value) return '';
+      return this.value.length;
     },
   }
 }

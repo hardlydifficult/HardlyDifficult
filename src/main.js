@@ -1,18 +1,27 @@
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
+const BigNumber = require('bignumber.js');
 import AsyncComputed from 'vue-async-computed'
 Vue.use(AsyncComputed);
-const BigNumber = require('bignumber.js');
-import TronExplorer from './logic/tron/TronExplorer.js';
-const tronExplorer = new TronExplorer();
 import VTooltip from 'v-tooltip'
 Vue.use(VTooltip)
 import Clipboard from 'v-clipboard'
 Vue.use(Clipboard)
 Vue.config.productionTip = false
-import VueLocalStorage from 'vue-localstorage'
-Vue.use(VueLocalStorage)
+
+import TronLibrary from './logic/tron/TronLibrary';
+const TRON_LIBRARY = new TronLibrary();
+
+Vue.mixin({
+  data: function() {
+    return {
+      get tronLibrary() {
+        return TRON_LIBRARY;
+      }
+    }
+  }
+})
 
 Vue.filter('trx', function (value) {
   if (!value) return ''
@@ -22,11 +31,6 @@ Vue.filter('trx', function (value) {
 Vue.filter('number', function (value) {
   if (!value) return ''
   return new BigNumber(value).toFormat();
-})
-
-Vue.filter('hexToNumberWithoutComma', function (value) {
-  if (!value) return ''
-  return new BigNumber(value, 16).toFixed();
 })
 
 Vue.filter('date', function (value) {

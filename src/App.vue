@@ -1,32 +1,50 @@
 <template>
   <div>
     <div style="text-align:center">
-      <UserInput />
-      <CharacterCount />
+      <InputTextArea :value="trimmedInput" />
+      <CharacterCount :value="trimmedInput" />
     </div>
     <br>
-    <TronTransaction />
-    <DecimalTo />
-    <HexTo />
+    <Tron :value="trimmedInput" network="mainnet" />
+    <Tron :value="trimmedInput" network="shasta" />
+    <IntegerTo :value="trimmedInput" />
+    <HexTo :value="trimmedInput" />
   </div>
 </template>
 
 <script>
-import UserInput from './components/UserInput.vue'
-import TronTransaction from './components/TronTransaction.vue'
-import DecimalTo from './components/DecimalTo/DecimalTo.vue'
-import HexTo from './components/HexTo/HexTo.vue'
-import CharacterCount from './components/CharacterCount.vue'
+import InputTextArea from './components/Input/TextArea.vue'
+import CharacterCount from './components/Types/String/CharacterCount.vue'
+import IntegerTo from './components/Types/Int/IntTo.vue'
+import HexTo from './components/Types/Hex/HexTo.vue'
+import Tron from './components/Topics/Tron/Tron.vue'
 
 export default {
   components: {
-    UserInput,
+    InputTextArea,
     CharacterCount,
-    TronTransaction,
+    Tron,
     HexTo,
-    DecimalTo,
-  }
+    IntegerTo,
+  },
+  computed: {
+    trimmedInput() {
+      const input = this.$store.state.userInput.trim();
+      window.location.hash = input;
+      return input;
+    }
+  },
+  mounted: function() {
+    const updateHash = () => {
+      if(!window.location.hash || window.location.hash.length < 1) return;
+      this.$store.state.userInput = window.location.hash.substr(1);
+    };
+    window.addEventListener('hashchange', updateHash);
+  },
 }
+
+
+
 </script>
 
 <style lang="scss">
@@ -37,13 +55,17 @@ textarea {
 ul {
   margin: 0 0 0 0;
 }
+.elipse {
+  font-family: sans-serif;
+  font-size: .5em;
+}
 
 .tooltip {
   display: block !important;
   z-index: 10000;
 
   .tooltip-inner {
-    background: rgb(206, 200, 200);
+    background: black;
     color: white;
     border-radius: 16px;
     padding: 5px 10px 4px;

@@ -6,10 +6,8 @@
 </template>
 
 <script>
-import TronExplorer from '../logic/tron/TronExplorer.js';
-const tronExplorer = new TronExplorer();
-import FunctionCall from './FunctionCall.vue';
-import DataField from './DataField.vue';
+import FunctionCall from '../Fields/FunctionCall.vue';
+import DataField from '../Fields/DataField.vue';
 
 export default {
   components: {
@@ -18,15 +16,14 @@ export default {
   },
   props: {
     contract: undefined,
-    value: undefined
+    value: undefined,
+    tronExplorer: undefined
   },
   asyncComputed: {
     async parsedLog()
     {
-      if(this.value)
-      {
-        return await tronExplorer.parseLog(this.value);
-      }
+      if(!this.value) return '';
+      return await this.tronExplorer.parseLog(this.value);
     }
   },
 }

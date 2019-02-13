@@ -5,7 +5,7 @@
     </span>
     <span v-if="tx.raw_data.contract[0].parameter.value.contract_address">
       call contract <DataField :value="tx.raw_data.contract[0].parameter.value.contract_address" type="address" />
-      <TronContractAuthor :contract="tx.raw_data.contract[0].parameter.value.contract_address" />
+      (<TronContractAuthor :abi="abi" prefix="created by: " />)
     </span>
     <span v-if="tx.raw_data.contract[0].parameter.value.to_address">
       <span v-if="tx.raw_data.contract[0].type.startsWith('Transfer')">
@@ -18,7 +18,7 @@
       (expires {{ tx.raw_data.expiration - tx.raw_data.timestamp | msDuration }} later)
     </span>
     <span v-if="tx.raw_data.fee_limit">
-      Max fee: {{ tx.raw_data.fee_limit | trx }}.
+      max fee: {{ tx.raw_data.fee_limit | trx }}
     </span>
     <div v-if="call">
       <FunctionCall :name="call.function" :params="call.params" />
@@ -40,11 +40,9 @@
 </template>
 
 <script>
-import TronExplorer from '../logic/tron/TronExplorer.js';
-const tronExplorer = new TronExplorer();
-import TronContractAuthor from './TronContractAuthor.vue';
-import FunctionCall from './FunctionCall.vue';
-import DataField from './DataField.vue';
+import TronContractAuthor from '../Contract/Author.vue';
+import FunctionCall from '../Fields/FunctionCall.vue';
+import DataField from '../Fields/DataField.vue';
 
 export default {
   components: {
@@ -53,15 +51,17 @@ export default {
     DataField,
   },
   props: {
-    tx: undefined
+    tx: undefined,
+    tronExplorer: undefined
   },
   asyncComputed: {
     async call() {
-      if(this.tx && this.tx.raw_data.contract[0].parameter.value.data)
-      {
-        return await tronExplorer.parseCall(this.tx.raw_data.contract[0].parameter.value.contract_address, this.tx.raw_data.contract[0].parameter.value.data)
-      }
-      return '';
+      if(!this.tx || !this.tx.raw_data || !this.tx.raw_data.contract || this.tx.raw_data.contract.length <= 0 || !this.tx.raw_data.contract[0].parameter || !this.tx.raw_data.contract[0].parameter.value || !this.tx.raw_data.contract[0].parameter.value.data) return '';
+      return await this.tronExplorer.parseCall(this.tx.raw_data.contract[0].parameter.value.contract_address, this.tx.raw_data.contract[0].parameter.value.data)
+    },
+    async abi() {
+      if(!this.tx) return '';
+      return await this.tronExplorer.getAbi(this.tx.raw_data.contract[0].parameter.value.contract_address);
     }
   }
 }
