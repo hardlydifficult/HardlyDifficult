@@ -2,7 +2,7 @@
   <div v-if="unconfirmedBalance !== undefined">
     Balance: {{ unconfirmedBalance | trx }}
     <span v-if="confirmedBalance && confirmedBalance != unconfirmedBalance">
-      {{ confirmedBalance | trx }} ({{ confirmedDelta | trx }}) confirmed
+      {{ confirmedBalance | trx }} (delta {{ confirmedDelta | trx }}) confirmed
     </span>
   </div>
 </template>
@@ -29,7 +29,7 @@ export default {
     },
     confirmedDelta() {
       if(!this.unconfirmedBalance || !this.confirmedBalance) return undefined;
-      return new BigNumber(this.confirmedBalance).minus(this.unconfirmedBalance).toFixed();
+      return new BigNumber(this.unconfirmedBalance).minus(this.confirmedBalance).toFixed();
     }
   }
 }

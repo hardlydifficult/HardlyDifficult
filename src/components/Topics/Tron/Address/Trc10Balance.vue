@@ -2,7 +2,7 @@
   <span v-if="hasBalance">
     Trc10 #{{ unconfirmedToken.key | number }}: {{ unconfirmedToken.value | number }}
     <span v-if="confirmedToken && confirmedToken.value != unconfirmedToken.value">
-      {{ confirmedToken.value | number }} ({{ confirmedDelta | number }}) confirmed
+      {{ confirmedToken.value | number }} (delta {{ confirmedDelta | number }}) confirmed
     </span>
   </span>
 </template>
@@ -25,7 +25,7 @@ export default {
     },
     confirmedDelta() {
       if(!this.hasBalance) return undefined;
-      return new BigNumber(this.confirmedToken.value).minus(this.unconfirmedToken.value).toFixed();
+      return new BigNumber(this.unconfirmedToken.value).minus(this.confirmedToken.value).toFixed();
     }
   }
 }
