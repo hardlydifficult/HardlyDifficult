@@ -1,7 +1,7 @@
 <template>
   <div v-if="parsedLog">
     <FunctionCall :name="parsedLog.event" :params="parsedLog.params" />
-    <div v-if="parsedLog.address != contract" class="details">from <DataField :value="parsedLog.address" type="address" /></div>
+    <span v-if="parsedLog.address != contract" class="small">from <DataField :value="parsedLog.address" type="address" /></span>
   </div>
 </template>
 

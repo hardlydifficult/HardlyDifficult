@@ -22,7 +22,10 @@ export default {
         if(code >= 32 && code <= 126)
         {
           result += String.fromCharCode(code);
-          charCount++;
+          if(code > 32) 
+          {
+            charCount++;
+          }
         }
         else if(charCount > 0)
         {

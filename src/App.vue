@@ -68,6 +68,9 @@ ul {
   font-family: sans-serif;
   font-size: .5em;
 }
+.small {
+  font-size: .6em;
+}
 .details {
   font-size: .6em;
   margin-left: 1em;
