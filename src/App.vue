@@ -7,8 +7,13 @@
     <br>
     <Tron :value="trimmedInput" network="mainnet" />
     <Tron :value="trimmedInput" network="shasta" />
-    <IntegerTo :value="trimmedInput" />
-    <HexTo :value="trimmedInput" />
+    <div class="topicBox">
+      <div class="topicHeader">
+        Type conversions
+      </div>
+      <IntegerTo :value="trimmedInput" />
+      <HexTo :value="trimmedInput" />
+    </div>
   </div>
 </template>
 
@@ -48,6 +53,10 @@ export default {
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono|Open+Sans');
+body {
+  font-family: 'Open Sans', sans-serif;
+}
 textarea {
   width: 90%;
   height: 3.4em;
@@ -59,6 +68,36 @@ ul {
   font-family: sans-serif;
   font-size: .5em;
 }
+.details {
+  font-size: .6em;
+  margin-left: 1em;
+}
+.topicBox {
+  border: 1px solid green;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  margin-bottom: 1em;
+}
+.tab {
+  margin-left: 1em;
+}
+.topicHeader {
+  font-size: 1.25em;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+a:hover {
+  text-decoration: underline;
+  color: blue;
+}
+a:active {
+  color: red;
+}
+
 
 .tooltip {
   display: block !important;

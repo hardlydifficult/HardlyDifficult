@@ -1,5 +1,5 @@
 <template>
-  <span v-if="name" class="functionCall">
+  <span v-if="name">
     <span class="eventName">{{ name }}</span>(<span
       v-for="(param, index) in params" :key="index"><span v-if="index > 0">, </span><DataField :value="param.value" :type="param.type" /></span>)
   </span>
@@ -22,8 +22,5 @@ export default {
 <style>
 .eventName {
   font-weight: bold;
-}
-.functionCall {
-  font-family: monospace
 }
 </style>

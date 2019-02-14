@@ -1,11 +1,11 @@
 <template>
   <span v-if="value !== undefined">
     <span v-if="value.length == 64 && value.startsWith('800000000000000000000000') && !value.startsWith('80000000000000000000000000')">
-      <span v-tooltip="hex" v-on:click="$clipboard(value)">2<sup>^255</sup> + 
+      <span v-tooltip="hex">2<sup>^255</sup> + 
       </span>
       <Address :value="value.substring(value.length - 40)" />
     </span>
-    <span v-else-if="int.length <= 20" v-on:click="$clipboard(int)">
+    <span v-else-if="int.length <= 20">
       <span v-if="couldBeDate" v-tooltip="`${withCommas} -- ${hex} -- ${asDate}`">{{ int }}</span>
       <span v-else v-tooltip="`${withCommas} -- ${hex}`">{{ int }}</span>
     </span>

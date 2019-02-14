@@ -1,9 +1,11 @@
 <template>
   <span v-if="hex">
     <span v-if="hex == 0">0</span>
-    <span v-else v-tooltip="hex" v-on:click="$clipboard(hex)">
-      <span v-if="hex.length < 8">{{ hex }}</span>
-      <span v-else>{{ shortHexPrefix }}<span class="elipse">...</span>{{ shortHexSuffix }}</span>
+    <span v-else v-tooltip="hex">
+      <a :href="`#${hex}`">
+        <span v-if="hex.length < 8">{{ hex }}</span>
+        <span v-else>{{ shortHexPrefix }}<span class="elipse">...</span>{{ shortHexSuffix }}</span>
+      </a>
     </span>
   </span>
 </template>

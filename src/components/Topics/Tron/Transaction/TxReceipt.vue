@@ -2,7 +2,9 @@
   <div v-if="JSON.stringify(tx || {}) != '{}' && JSON.stringify(txInfo || {}) != '{}'">
     <div>
       {{ tx.ret[0].contractRet | titleCase }}
-      @ {{ txInfo.blockTimeStamp | date }} block #{{ txInfo.blockNumber | number }} (mined in {{ txInfo.blockTimeStamp - tx.raw_data.timestamp | msDuration }}).
+    </div>
+    <div class="details">
+      {{ txInfo.blockTimeStamp | date }} block #{{ txInfo.blockNumber | number }} (mined in {{ txInfo.blockTimeStamp - tx.raw_data.timestamp | msDuration }}).
       <span v-if="txInfo.fee">
         Fee: {{ txInfo.fee | trx }} 
         <span v-if="feeOverLimit">
@@ -27,11 +29,11 @@
     </span>
     <span v-if="txInfo.log && txInfo.log.length > 0">
       Logs:
-      <ul>
-        <li v-for="(log, index) in txInfo.log" :key="index">
+      <div class="tab">
+        <div v-for="(log, index) in txInfo.log" :key="index">
           <TronLog :contract="txInfo.contract_address" :value="log" :tronExplorer="tronExplorer" />
-        </li>
-      </ul>
+        </div>
+      </div>
     </span>
   </div>
 </template>

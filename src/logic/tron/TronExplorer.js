@@ -2,25 +2,25 @@ const TronWeb = require('tronweb');
 import {keccak256} from 'js-sha3';
 const BigNumber = require('bignumber.js');
 import TronLibrary from './TronLibrary.js';
+const axios = require('axios');
 
 export default class TronExplorer {
   constructor(network)
   {
     this.network = network;
-    let node;
     switch(this.network)
     {
       case 'shasta':
-        node = 'https://api.shasta.trongrid.io/';
+        this.node = 'https://api.shasta.trongrid.io/';
         break;
       case 'mainnet':
-        node = 'https://api.trongrid.io/';
+        this.node = 'https://api.trongrid.io/';
         break;
       default:
         throw new Error('Missing network');
     }
     this.tronLibrary = new TronLibrary();
-    this.tronWeb = new TronWeb(node, node, node,
+    this.tronWeb = new TronWeb(this.node, this.node, this.node,
       "da146374a75310b9666e834ee4ad0866d6f4035967bfc76217c5a495fff9f0d9"
     )
   }
@@ -30,6 +30,7 @@ export default class TronExplorer {
     if(!tx || tx.length != 64) return undefined;
     
     let transactionInfo = await this.tronWeb.trx.getTransaction(tx);
+    console.log(transactionInfo);
     return transactionInfo;
   }
 
@@ -38,6 +39,7 @@ export default class TronExplorer {
     if(!tx || tx.length != 64) return undefined;
     
     let transactionInfo = await this.tronWeb.trx.getTransactionInfo(tx);
+    console.log(transactionInfo);
     return transactionInfo;
   }
   
@@ -45,7 +47,58 @@ export default class TronExplorer {
   {
     if(!address) return undefined;
     const abi = await this.tronWeb.trx.getContract(this.tronLibrary.toBase58(address));
+    console.log(abi);
     return abi;
+  }
+
+  getAccount = async function(address)
+  {
+    const account = await this.tronWeb.trx.getAccount(address);
+    console.log(account);
+    return account;
+  }
+
+  getUnconfirmedAccount = async function(address)
+  {
+    const account = await this.tronWeb.trx.getUnconfirmedAccount(address);
+    console.log(account);
+    return account;
+  }
+
+  // getTransactionsFrom = async function(address, limit = 30, offset = 0)
+  // {
+  //   return undefined; // TODO not working
+  //   // if(!address) return undefined;
+  //   // try 
+  //   // {
+  //   //   console.log("trying " + address)
+  //   //   return await this.tronWeb.trx.getTransactionsRelated(address, 'all', limit, offset);
+  //   // } 
+  //   // catch(e)
+  //   // {
+  //   //   console.log(e);
+  //   //   console.log(e.message);
+  //   // }
+  // }
+
+  // getTransactionsTo = async function(address, limit = 30, offset = 0)
+  // {
+  //   return undefined; // TODO not working
+  //   // try 
+  //   // {
+  //   //   return await this.tronWeb.trx.getTransactionsToAddress(address, limit, offset);
+  //   // } 
+  //   // catch(e)
+  //   // {
+  //   //   console.log(e.message);
+  //   // }
+  // }
+
+  getRecentEvents = async function(address)
+  {
+    const events = await axios.get(`${this.node}/event/contract/${address}?size=200`)
+    console.log(events);
+    return events.data;
   }
 
   parseLog = async function(log)
@@ -148,8 +201,17 @@ export default class TronExplorer {
 
     if(entry.inputs)
     {
+      console.log(entry.inputs)
       let pos = 8;
-      pos += 64 * entry.inputs.length;
+      let arrayCount = 0;
+      for(let i = 0; i < entry.inputs.length; i++)
+      {
+        if(entry.inputs[i].type.endsWith('[]'))
+        {
+          arrayCount++;
+        }
+      }
+      pos += 64 * arrayCount;
       entry.inputs.forEach((input) => 
       {
         let param = {
@@ -169,7 +231,9 @@ export default class TronExplorer {
         }
         else
         {
+          //if(pos + 64 > callData.length) throw new Error("parsing error");
           param.value = callData.substr(pos, 64);
+          console.log(param + ' from ' + pos + ' ' + callData)
           pos += 64;
         }
 

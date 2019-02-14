@@ -1,6 +1,8 @@
 <template>
   <span v-if="value !== undefined">
-    <span v-if="!isZero" v-on:click="$clipboard(base58)" v-tooltip="`${base58} (${hex})`">{{ shortAddressPrefix }}<span class="elipse">...</span>{{ shortAddressSuffix }}</span>
+    <span v-if="!isZero" v-tooltip="`${base58} (${hex})`">
+      <a :href="`#${base58}`">{{ shortAddressPrefix }}<span class="elipse">...</span>{{ shortAddressSuffix }}</a>
+    </span>
     <span v-else>0</span>
   </span>
 </template>

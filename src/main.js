@@ -24,7 +24,7 @@ Vue.mixin({
 })
 
 Vue.filter('trx', function (value) {
-  if (!value) return ''
+  if (value === undefined) return undefined
   return new BigNumber(value).div(1000000).toFormat() + ' TRX';
 })
 
@@ -45,26 +45,26 @@ Vue.filter('msDuration', function (value) {
   if(value > 1000 * 60 * 60 * 24 * 2.5) // > 2.5 days
   {
     value = value.div(1000 * 60 * 60 * 24);
-    return `${value.toFormat()} days`;
+    return `${value.toFormat(2)} days`;
   } 
   else if(value > 1000 * 60 * 60 * 2.5) // > 2.5 hours
   {
     value = value.div(1000 * 60 * 60);
-    return `${value.toFormat()} hrs`;
+    return `${value.toFormat(2)} hrs`;
   }
   else if(value > 1000 * 60 * 2.5) // > 2.5 minutes
   {
     value = value.div(1000 * 60);
-    return `${value.toFormat()} mins`;
+    return `${value.toFormat(2)} mins`;
   }
   else if(value > 1000 * 2.5) // > 2.5 seconds
   {
     value = value.div(1000);
-    return `${value.toFormat()} secs`;
+    return `${value.toFormat(2)} secs`;
   }
   else if(value > 0)
   {
-    return `${value.toFormat()} ms`;
+    return `${value.toFormat(0)} ms`;
   }
   else
   {
@@ -80,6 +80,11 @@ Vue.filter('titleCase', function (value) {
           return value.charAt(0).toUpperCase() + value.substr(1).toLowerCase();
       }
   );
+})
+
+Vue.filter('lowercase', function (value) {
+  if (!value) return ''
+  return value.toLowerCase();
 })
 
 Vue.filter('hexToString', function (value) {

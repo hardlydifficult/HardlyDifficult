@@ -1,43 +1,43 @@
 <template>
-  <div v-if="JSON.stringify(tx || {}) != '{}'">
-    <strong>TRON {{ tronExplorer.network | titleCase }}</strong> transaction
+  <div v-if="JSON.stringify(tx || {}) != '{}'" class="topicBox">
+    <div class="topicHeader">
+      TRON <strong>{{ tronExplorer.network | titleCase }}</strong> transaction
+    </div>
     <TronTxRequest :tx="tx" :tronExplorer="tronExplorer" />
     <TronTxReceipt :tx="tx" :txInfo="txInfo" :tronExplorer="tronExplorer" />
-    <div class="fullDetails">
-      <br><hr><br>
-      Request:
-      <Json :value="tx" />
-      <span v-if="JSON.stringify(txInfo || {}) != '{}'">
-        Response:
-        <Json :value="txInfo" />
-      </span>
-    </div>
-    <br><hr><hr><hr><br>
   </div>
 </template>
 
 <script>
 import TronTxRequest from './TxRequest.vue';
 import TronTxReceipt from './TxReceipt.vue';
-import Json from '../../../Types/String/Json.vue';
 
 export default {
   components: {
     TronTxRequest,
     TronTxReceipt,
-    Json,
   },
   props: {
     value: undefined,
     tronExplorer: undefined,
   },
+  computed: {
+    txHash() {
+      if(!this.value) return undefined;
+      if(this.value.startsWith('0x'))
+      {
+        return this.value.substring(2);
+      }
+      return this.value;
+    }
+  },
   asyncComputed: {
     async tx () 
     {
-      if(!this.value) return '';
+      if(!this.txHash) return '';
       try 
       {
-        return await this.tronExplorer.getTx(this.value);
+        return await this.tronExplorer.getTx(this.txHash);
       } 
       catch(e)
       {
@@ -49,7 +49,7 @@ export default {
       if(!this.tx) return '';
       try 
       {
-        return await this.tronExplorer.getTxInfo(this.value);
+        return await this.tronExplorer.getTxInfo(this.txHash);
       }
       catch(e)
       {
