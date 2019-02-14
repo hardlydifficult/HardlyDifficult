@@ -1,5 +1,5 @@
 <template>
-  <span v-if="value && value.isString">{{ prefix }}{{ value.result.trim() }}</span>
+  <div v-if="value && value.isString">{{ prefix }}{{ value.result.trim() }}</div>
 </template>
 
 <script>
