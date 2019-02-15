@@ -1,18 +1,54 @@
 <template>
   <div>
-    <div style="text-align:center">
-      <InputTextArea :value="trimmedInput" />
-      <CharacterCount :value="trimmedInput" />
-    </div>
-    <br>
-    <Tron :value="trimmedInput" network="mainnet" />
-    <Tron :value="trimmedInput" network="shasta" />
-    <div class="topicBox">
-      <div class="topicHeader">
-        Type conversions
+    <div class="bodyContent">
+      <div style="text-align:center">
+        <InputTextArea :value="trimmedInput" />
+        <CharacterCount :value="trimmedInput" />
       </div>
-      <IntegerTo :value="trimmedInput" />
-      <HexTo :value="trimmedInput" />
+      <div v-if="trimmedInput">
+        <br>
+        <Tron :value="trimmedInput" network="mainnet" />
+        <Tron :value="trimmedInput" network="shasta" />
+        <div class="topicBox">
+          <div class="topicHeader">
+            Type conversions
+          </div>
+          <HexTo :value="trimmedInput" />
+          <IntegerTo :value="trimmedInput" />
+        </div>
+      </div>
+      <div v-else>
+        <div>
+          Features:
+          <ul>
+            <li>
+              TRON Mainnet and Shasta explorer: search by tx hash or address.
+            </li>
+            <li>
+              Type conversions: hex to int/ascii, int to hex, and character count.
+            </li>
+          </ul>
+          <span class="small">
+            No server, all information surfaced is retrieved from public APIs and/or calculated in local javascript.  Check the console log for more.
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <a href="https://github.com/hardlydifficult/HardlyDifficult/issues/new">Issues, suggestions: let me know</a>!
+      <br><br>
+      Support development of this tool: tip with
+        <span v-tooltip="'3EPAsFwUBh1JvPJVqoycXpYVfDE4v3WdQ1'" v-on:click="$clipboard('3EPAsFwUBh1JvPJVqoycXpYVfDE4v3WdQ1')">
+          BTC, 
+        </span>
+        <span v-tooltip="'0x7A23608a8eBe71868013BDA0d900351A83bb4Dc2'" v-on:click="$clipboard('0x7A23608a8eBe71868013BDA0d900351A83bb4Dc2')">
+          ETH, 
+        </span>
+        or
+        <span v-tooltip="'TNbiopsxqPGk5XicApWJwEbZZ7uLJfpvfm'" v-on:click="$clipboard('TNbiopsxqPGk5XicApWJwEbZZ7uLJfpvfm')">
+          TRON 
+        </span>
+        (click to copy address)
     </div>
   </div>
 </template>
@@ -56,6 +92,10 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono|Open+Sans');
 body {
   font-family: 'Open Sans', sans-serif;
+  margin: 0;
+}
+.bodyContent {
+  margin: 1em;
 }
 textarea {
   width: 90%;
@@ -106,6 +146,14 @@ a:active {
 
 .paramName {
   font-size: .6em;
+}
+.footer {
+  font-size: .6em;
+  margin-top: 4em;
+  margin-bottom: 2em;
+  padding-top: 1em;
+  padding-left: 1em;
+  border-top: 1px solid green;
 }
 
 

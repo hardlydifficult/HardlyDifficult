@@ -27,7 +27,7 @@
         </span>
       </div>
     </div>
-    <div v-else>
+    <div v-else class="tab">
       No very recent transactions found.
     </div>
   </div>
@@ -51,6 +51,7 @@ export default {
     async recentTransactions() {
       if(!this.base58) return undefined;
       const transactions = await this.tronExplorer.getRecentTransactions();
+      if(!transactions || !transactions.data || !transactions.data.data) return undefined;
       let results = [];
       for(let i = 0; i < transactions.data.data.length; i++)
       {

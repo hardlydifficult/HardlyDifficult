@@ -1,5 +1,5 @@
 <template>
-  <div v-if="value && value.isString">{{ prefix }}{{ value.result.trim() }}</div>
+  <div v-if="value && value.isString">{{ prefix }}{{ value.result }}</div>
 </template>
 
 <script>
@@ -34,7 +34,9 @@ export default {
         }
         maxCharCount = Math.max(maxCharCount, charCount);
       }
-      return {isString: maxCharCount >= 3 || maxCharCount >= result.length - 1, result};
+      result = result.trim();
+      console.log("Result is " + result + ".");
+      return {isString: result.length >= 1 && (maxCharCount >= 3 || maxCharCount >= result.length - 1), result};
     }
   }
 }

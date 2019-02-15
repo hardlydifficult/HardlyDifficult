@@ -74,7 +74,7 @@ export default class TronExplorer {
 
   getRecentTransactions = async function()
   {
-    const transactions = await axios.get(`${this.tronScanNode}api/transaction?sort=-timestamp&count=false&limit=200&start=0`);
+    const transactions = await axios.get(`${this.tronScanNode}api/transaction?sort=-timestamp&count=false&limit=50&start=0`);
     console.log(`getRecentTransactions()`);
     console.log(transactions);
     return transactions;

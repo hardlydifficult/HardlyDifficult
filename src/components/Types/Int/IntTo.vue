@@ -17,12 +17,12 @@ export default {
   },
   computed: {
     big() {
-      if(!this.value) return '';
+      if(!this.value) return undefined;
       return new BigNumber(this.value);
     },
     isDecimal() {
       if(!this.big) return false;
-      this.big.isInteger();
+      return this.big.isInteger();
     },
   }
 }

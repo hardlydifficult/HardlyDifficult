@@ -13,7 +13,7 @@ export default {
   },
   computed: {
     hex() {
-      if(!value) return '';
+      if(!this.big) return undefined;
       return '0x' + this.big.toString(16);
     }
   }
