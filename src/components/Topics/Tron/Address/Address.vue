@@ -10,21 +10,25 @@
     </div>
     <div class="details">
       <div v-if="unconfirmedAccount.create_time">
-        Created {{ unconfirmedAccount.create_time | date }} ({{ deltaCreated | msDuration }} ago)
+        Created
+        <Timestamp :time="unconfirmedAccount.create_time" :compareTo="unconfirmedAccount.create_time" deltaTemplate="(%0 ago)" />
       </div>
       <div v-if="unconfirmedAccount.latest_opration_time">
-        Last action {{ unconfirmedAccount.latest_opration_time | date }} ({{ deltaLastOperation | msDuration }} ago)
+        Last action
+        <Timestamp :time="unconfirmedAccount.latest_opration_time" :compareTo="unconfirmedAccount.latest_opration_time" deltaTemplate="(%0 ago)" />        
       </div>
     </div>
-    <span>
+    <div class="dataGroup">
       Tokens:
       <div class="tab">
         <TrxBalance :account="account" :unconfirmedAccount="unconfirmedAccount" :tronExplorer="tronExplorer" />
         <Trc10Balances :account="account" :unconfirmedAccount="unconfirmedAccount" :tronExplorer="tronExplorer" />
-        <!-- <RecentTransactions :base58="base58" :tronExplorer="tronExplorer" /> -->
       </div>
+    </div>
+    <RecentTransactions :base58="base58" :tronExplorer="tronExplorer" />
+    <span v-if="unconfirmedAccount.type">
+      <Contract :base58="base58" :tronExplorer="tronExplorer" />
     </span>
-    <RecentEvents v-if="unconfirmedAccount.type" :base58="base58" :tronExplorer="tronExplorer" />
   </div>
 </template>
 
@@ -32,17 +36,19 @@
 const BigNumber = require('bignumber.js');
 import TrxBalance from './TrxBalance.vue';
 import Trc10Balances from './Trc10Balances.vue';
-// import RecentTransactions from './RecentTransactions.vue';
-import RecentEvents from './RecentEvents.vue';
-import DataField from '../Fields/DataField.vue'
+import RecentTransactions from './RecentTransactions.vue';
+import DataField from '../Fields/DataField.vue';
+import Contract from './Contract/Contract.vue';
+import Timestamp from '../../../Types/Int/ToTimestamp.vue';
 
 export default {
   components: {
     TrxBalance,
     Trc10Balances,
-    // RecentTransactions,
-    RecentEvents,
+    RecentTransactions,
     DataField,
+    Contract,
+    Timestamp,
   },
   props: {
     value: undefined,
@@ -72,14 +78,6 @@ export default {
     base58() {
       if(!this.hex) return undefined;
       return this.tronLibrary.toBase58('41' + this.hex.substr(2));
-    },
-    deltaCreated() {
-      if(!this.unconfirmedAccount) return undefined;
-      return new BigNumber(Date.now()).minus(this.unconfirmedAccount.create_time).toFixed();
-    },
-    deltaLastOperation() {
-      if(!this.unconfirmedAccount) return undefined;
-      return new BigNumber(Date.now()).minus(this.unconfirmedAccount.latest_opration_time).toFixed();
     },
   },
   asyncComputed: {

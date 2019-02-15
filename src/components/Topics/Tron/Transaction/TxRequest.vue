@@ -19,6 +19,9 @@
         <span v-if="this.tx.raw_data.contract[0].parameter.value.call_value">
           {{ this.tx.raw_data.contract[0].parameter.value.call_value | trx }} 
         </span>
+        <span v-if="this.tx.raw_data.contract[0].parameter.value.call_value && this.tx.raw_data.contract[0].parameter.value.call_token_value">
+          and
+        </span>
         <span v-if="this.tx.raw_data.contract[0].parameter.value.call_token_value">
           {{ this.tx.raw_data.contract[0].parameter.value.call_token_value | number }} 
           Trc10 #{{ this.tx.raw_data.contract[0].parameter.value.token_id }}
@@ -39,10 +42,7 @@
       Deploy contract <DataField :value="tx.contract_address" type="address" />
     </div>
     <div class="details">
-      <span v-if="tx.raw_data.timestamp">
-        {{ tx.raw_data.timestamp | date }}
-        (expires {{ tx.raw_data.expiration - tx.raw_data.timestamp | msDuration }} later)
-      </span>
+      <Timestamp :time="tx.raw_data.timestamp" :compareTo="tx.raw_data.expiration" deltaTemplate="(expires %0 later)" />
       <span v-if="tx.raw_data.fee_limit">
         max fee: {{ tx.raw_data.fee_limit | trx }}
       </span>
@@ -54,12 +54,14 @@
 import TronContractAuthor from '../Contract/Author.vue';
 import FunctionCall from '../Fields/FunctionCall.vue';
 import DataField from '../Fields/DataField.vue';
+import Timestamp from '../../../Types/Int/ToTimestamp.vue';
 
 export default {
   components: {
     TronContractAuthor,
     FunctionCall,
     DataField,
+    Timestamp,
   },
   props: {
     tx: undefined,

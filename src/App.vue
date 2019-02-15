@@ -100,6 +100,13 @@ a:hover {
 a:active {
   color: red;
 }
+.dataGroup {
+  margin-bottom: .75em;
+}
+
+.paramName {
+  font-size: .6em;
+}
 
 
 .tooltip {

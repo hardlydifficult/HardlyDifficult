@@ -12,9 +12,11 @@ export default class TronExplorer {
     {
       case 'shasta':
         this.node = 'https://api.shasta.trongrid.io/';
+        this.tronScanNode = 'https://api.shasta.tronscan.org/';
         break;
       case 'mainnet':
         this.node = 'https://api.trongrid.io/';
+        this.tronScanNode = 'https://api.tronscan.org/';
         break;
       default:
         throw new Error('Missing network');
@@ -30,6 +32,7 @@ export default class TronExplorer {
     if(!tx || tx.length != 64) return undefined;
     
     let transactionInfo = await this.tronWeb.trx.getTransaction(tx);
+    console.log(`getTx(${tx}): `);
     console.log(transactionInfo);
     return transactionInfo;
   }
@@ -39,6 +42,7 @@ export default class TronExplorer {
     if(!tx || tx.length != 64) return undefined;
     
     let transactionInfo = await this.tronWeb.trx.getTransactionInfo(tx);
+    console.log(`getTxInfo(${tx}): `);
     console.log(transactionInfo);
     return transactionInfo;
   }
@@ -47,6 +51,7 @@ export default class TronExplorer {
   {
     if(!address) return undefined;
     const abi = await this.tronWeb.trx.getContract(this.tronLibrary.toBase58(address));
+    console.log(`getAbi(${address}): `);
     console.log(abi);
     return abi;
   }
@@ -54,6 +59,7 @@ export default class TronExplorer {
   getAccount = async function(address)
   {
     const account = await this.tronWeb.trx.getAccount(address);
+    console.log(`getAccount(${address}): `);
     console.log(account);
     return account;
   }
@@ -61,42 +67,35 @@ export default class TronExplorer {
   getUnconfirmedAccount = async function(address)
   {
     const account = await this.tronWeb.trx.getUnconfirmedAccount(address);
+    console.log(`getUnconfirmedAccount(${address}): `);
     console.log(account);
     return account;
   }
 
-  // getTransactionsFrom = async function(address, limit = 30, offset = 0)
-  // {
-  //   return undefined; // TODO not working
-  //   // if(!address) return undefined;
-  //   // try 
-  //   // {
-  //   //   console.log("trying " + address)
-  //   //   return await this.tronWeb.trx.getTransactionsRelated(address, 'all', limit, offset);
-  //   // } 
-  //   // catch(e)
-  //   // {
-  //   //   console.log(e);
-  //   //   console.log(e.message);
-  //   // }
-  // }
-
-  // getTransactionsTo = async function(address, limit = 30, offset = 0)
-  // {
-  //   return undefined; // TODO not working
-  //   // try 
-  //   // {
-  //   //   return await this.tronWeb.trx.getTransactionsToAddress(address, limit, offset);
-  //   // } 
-  //   // catch(e)
-  //   // {
-  //   //   console.log(e.message);
-  //   // }
-  // }
-
-  getRecentEvents = async function(address)
+  getRecentTransactions = async function()
   {
-    const events = await axios.get(`${this.node}/event/contract/${address}?size=200`)
+    const transactions = await axios.get(`${this.tronScanNode}api/transaction?sort=-timestamp&count=false&limit=200&start=0`);
+    console.log(`getRecentTransactions()`);
+    console.log(transactions);
+    return transactions;
+  }
+
+  getRecentEvents = async function(address, eventName, count)
+  {
+    if(eventName)
+    {
+      eventName = `/${eventName}`;
+    }
+    else
+    {
+      eventName = '';
+    }
+    if(!count)
+    {
+      count = 200;
+    }
+    const events = await axios.get(`${this.node}event/contract/${address}${eventName}?size=${count}`)
+    console.log(`getRecentEvents(${address}, ${eventName}): `);
     console.log(events);
     return events.data;
   }
@@ -148,7 +147,7 @@ export default class TronExplorer {
             data = data.substring(64);
           }
           call += value;
-          params.push({type: input.type, value});
+          params.push({name: input.name, type: input.type, value});
         });
         if(data.length > 0) throw new Error(data);
         call += ')';
@@ -201,7 +200,6 @@ export default class TronExplorer {
 
     if(entry.inputs)
     {
-      console.log(entry.inputs)
       let pos = 8;
       let arrayCount = 0;
       for(let i = 0; i < entry.inputs.length; i++)
@@ -215,6 +213,7 @@ export default class TronExplorer {
       entry.inputs.forEach((input) => 
       {
         let param = {
+          name: input.name,
           type: input.type
         };
 
@@ -233,7 +232,6 @@ export default class TronExplorer {
         {
           //if(pos + 64 > callData.length) throw new Error("parsing error");
           param.value = callData.substr(pos, 64);
-          console.log(param + ' from ' + pos + ' ' + callData)
           pos += 64;
         }
 

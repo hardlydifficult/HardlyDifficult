@@ -2,7 +2,7 @@
   <span v-if="hasBalance">
     Trc10 #{{ unconfirmedToken.key | number }}: {{ unconfirmedToken.value | number }}
     <span v-if="confirmedToken && confirmedToken.value != unconfirmedToken.value">
-      {{ confirmedToken.value | number }} (delta {{ confirmedDelta | number }}) confirmed
+      {{ confirmedToken.value | number }} confirmed ({{ confirmedDelta | number }} pending)
     </span>
   </span>
 </template>

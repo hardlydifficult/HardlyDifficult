@@ -4,7 +4,9 @@
       {{ tx.ret[0].contractRet | titleCase }}
     </div>
     <div class="details">
-      {{ txInfo.blockTimeStamp | date }} block #{{ txInfo.blockNumber | number }} (mined in {{ txInfo.blockTimeStamp - tx.raw_data.timestamp | msDuration }}).
+      block #{{ txInfo.blockNumber | number }}
+      @
+      <Timestamp :time="txInfo.blockTimeStamp" :compareTo="tx.raw_data.timestamp" deltaTemplate="(mined in %0)" />
       <span v-if="txInfo.fee">
         Fee: {{ txInfo.fee | trx }} 
         <span v-if="feeOverLimit">
@@ -43,12 +45,14 @@ import TronLog from './Log.vue';
 const BigNumber = require('bignumber.js');
 import HexToString from '../../../Types/Hex/ToString.vue';
 import DataField from '../Fields/DataField.vue';
+import Timestamp from '../../../Types/Int/ToTimestamp.vue';
 
 export default {
   components: {
     TronLog,
     HexToString,
     DataField,
+    Timestamp
   },
   props: {
     tx: undefined,

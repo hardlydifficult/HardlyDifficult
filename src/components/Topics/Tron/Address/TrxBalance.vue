@@ -2,7 +2,7 @@
   <div v-if="unconfirmedBalance !== undefined">
     Balance: {{ unconfirmedBalance | trx }}
     <span v-if="confirmedBalance && confirmedBalance != unconfirmedBalance">
-      {{ confirmedBalance | trx }} (delta {{ confirmedDelta | trx }}) confirmed
+      {{ confirmedBalance | trx }} confirmed ({{ confirmedDelta | trx }} pending)
     </span>
   </div>
 </template>

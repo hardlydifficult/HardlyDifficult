@@ -1,5 +1,6 @@
 <template>
   <span v-if="value !== undefined">
+    <span class="paramName" v-if="trimmedName">{{trimmedName}}: </span>
     <!-- Arrays -->
     <span v-if="type.endsWith('[]')">[<span v-for="(v, index) in value" :key="index">
       <span v-if="index > 0">, </span>
@@ -43,8 +44,19 @@ export default {
   },
   props: {
     type: undefined,
-    value: undefined
+    value: undefined,
+    name: undefined,
   },
+  computed: {
+    trimmedName() {
+      if(!this.name) return undefined;
+      if(this.name.startsWith('_') && this.name.length > 1)
+      {
+        return this.name.substr(1);
+      }
+      return this.name;
+    }
+  }
 }
 
 </script>
