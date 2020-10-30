@@ -7,6 +7,7 @@ Vue.use(AsyncComputed);
 import VTooltip from 'v-tooltip'
 Vue.use(VTooltip)
 import Clipboard from 'v-clipboard'
+import { createProvider } from './vue-apollo'
 Vue.use(Clipboard)
 Vue.config.productionTip = false
 
@@ -76,5 +77,6 @@ Vue.filter('percent', function (value) {
 
 new Vue({
   store,
+  apolloProvider: createProvider({httpEndpoint: "https://api.thegraph.com/subgraphs/name/f8n/f8n-xdai"}),
   render: h => h(App)
 }).$mount('#app')

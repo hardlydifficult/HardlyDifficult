@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "serve": "vue serve src/main.js",
+    "build": "vue build src/main.js",
+    "lint": "vue lint"
   },
   "dependencies": {
     "@vue/babel-preset-app": "4.5.8",
@@ -19,6 +19,7 @@
     "v-clipboard": "2.2.3",
     "v-tooltip": "2.0.3",
     "vue": "2.6.12",
+    "vue-apollo": "^3.0.0-beta.11",
     "vue-async-computed": "3.9.0",
     "vue-localstorage": "0.6.2",
     "vuex": "3.5.1"
@@ -27,9 +28,12 @@
     "@vue/cli": "4.5.8",
     "@vue/cli-plugin-babel": "4.5.8",
     "@vue/cli-plugin-eslint": "4.5.8",
+    "@vue/cli-service-global": "^4.5.8",
     "babel-eslint": "10.1.0",
     "eslint": "7.12.1",
     "eslint-plugin-vue": "7.1.0",
+    "graphql-tag": "^2.9.0",
+    "vue-cli-plugin-apollo": "~0.22.2",
     "vue-template-compiler": "2.6.12"
   },
   "eslintConfig": {
