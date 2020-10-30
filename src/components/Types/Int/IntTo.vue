@@ -1,6 +1,6 @@
 <template>
   <div v-if="isDecimal">
-    <ToHex :big="big" />
+    <ToHex :big="big" v-if="!isHex" />
   </div>
 </template>
 
@@ -24,6 +24,9 @@ export default {
       if(!this.big) return false;
       return this.big.isInteger();
     },
+    isHex() {
+      return this.value.startsWith('0x');
+    }
   }
 }
 </script>

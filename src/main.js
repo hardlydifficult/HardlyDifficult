@@ -69,27 +69,6 @@ Vue.filter('lowercase', function (value) {
   return value.toLowerCase();
 })
 
-Vue.filter('hexToString', function (value) {
-  if (!value) return ''
-  let result = '';
-  let charCount = 0;
-  for(var i = 0; i < value.length; i += 2)
-  {
-    let code = parseInt(value.substr(i, 2), 16);
-    if(code >= 32 && code <= 126)
-    {
-      result += String.fromCharCode(code);
-      charCount++;
-    }
-    else if(charCount > 0)
-    {
-      result += String.fromCharCode(0);
-      charCount = 0;
-    }
-  }
-  return result;
-})
-
 Vue.filter('percent', function (value) {
   if (!value) return ''
   return `${new BigNumber(value).times(100).toFormat(2)}%`;
