@@ -7,7 +7,6 @@
 </template>
 
 <script>
-const BigNumber = require('bignumber.js');
 import Trc10Balance from './Trc10Balance.vue'
 
 export default {

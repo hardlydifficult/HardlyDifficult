@@ -27,7 +27,6 @@
 
 <script>
 import DataField from './DataField.vue';
-const BigNumber = require('bignumber.js')
 import TronAddress from './Internal/Address.vue';
 import Int from './Internal/Int.vue'
 import Bool from './Internal/Bool.vue'

@@ -63,14 +63,18 @@ export default {
         {
           big = new BigNumber(this.tronLibrary.toHex(this.value), 16);
         }
-      } catch(e) {}
+      } catch(e) {
+        console.log(e);
+      }
       try {
         if(!big) 
         {
           if(this.value.length == 42 || (this.value.length == 40 && (this.value.startsWith('0x') || this.value.startsWith('41'))))
           big = new BigNumber(this.tronLibrary.toHex(this.tronLibrary.toBase58(this.value)), 16);
         }
-      } catch(e) {}
+      } catch(e) {
+        console.log(e);
+      }
       
       if(!big || !big.isInteger()) return undefined;
       return '0x' + big.toString(16).substr(2);
