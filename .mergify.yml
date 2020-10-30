@@ -20,7 +20,7 @@ pull_request_rules:
   - name: auto-merge
     conditions:
       - label=auto-merge
-      - "status-success=ci/circleci: lint"
+      - "status-success=ci/circleci: build"
       - "#changes-requested-reviews-by=0"
       - "#status-neutral=0"
       - "#status-failure=0"
@@ -35,7 +35,7 @@ pull_request_rules:
   - name: strict-merge
     conditions:
       - label=strict-merge
-      - "status-success=ci/circleci: lint"
+      - "status-success=ci/circleci: build"
       - "#changes-requested-reviews-by=0"
       - "#status-neutral=0"
       - "#status-failure=0"
