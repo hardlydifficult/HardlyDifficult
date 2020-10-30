@@ -3,7 +3,7 @@
 # abort on errors
 set -e
 
-cd ../../
+cd repo/../../
 
 # navigate into the build output directory
 cd dist
