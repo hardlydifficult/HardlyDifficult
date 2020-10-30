@@ -12,7 +12,7 @@
     "bignumber.js": "8.0.2",
     "node-sass": "4.14.1",
     "sass-loader": "7.1.0",
-    "tronweb": "2.1.31",
+    "tronweb": "2.1.32",
     "unescape": "1.0.1",
     "unescape-js": "1.1.1",
     "v-clipboard": "2.2.1",
