@@ -36,7 +36,6 @@
 <script>
 import DataField from '../Fields/DataField.vue';
 import Timestamp from '../../../Types/Int/ToTimestamp.vue'
-const BigNumber = require('bignumber.js');
 
 export default {
   components: {

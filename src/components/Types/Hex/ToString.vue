@@ -3,8 +3,6 @@
 </template>
 
 <script>
-const BigNumber = require('bignumber.js');
-
 export default {
   props: {
     hex: undefined,

@@ -51,14 +51,12 @@
 </template>
 
 <script>
-import TronContractAuthor from '../Contract/Author.vue';
 import FunctionCall from '../Fields/FunctionCall.vue';
 import DataField from '../Fields/DataField.vue';
 import Timestamp from '../../../Types/Int/ToTimestamp.vue';
 
 export default {
   components: {
-    TronContractAuthor,
     FunctionCall,
     DataField,
     Timestamp,
