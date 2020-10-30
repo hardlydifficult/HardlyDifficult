@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="footer">
-      <a href="https://github.com/hardlydifficult/HardlyDifficult/issues/new">Issues, suggestions: let me know</a>!
+      <a href="https://github.com/hardlydifficult/HardlyDifficult/issues/new">Issues, suggestions: let me know</a>
       <br><br>
       Support development of this tool: tip with
         <span v-tooltip="'3EPAsFwUBh1JvPJVqoycXpYVfDE4v3WdQ1'" v-on:click="$clipboard('3EPAsFwUBh1JvPJVqoycXpYVfDE4v3WdQ1')">
