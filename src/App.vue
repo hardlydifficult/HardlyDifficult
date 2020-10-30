@@ -16,6 +16,9 @@
         </div>
       </div>
     </div>
+    <div>
+      <Dashboard />
+    </div>
     <div class="footer">
       <a href="https://github.com/hardlydifficult/HardlyDifficult/issues/new">Issues, suggestions: let me know</a>
       <br><br>
@@ -37,6 +40,7 @@ import InputTextArea from './components/Input/TextArea.vue'
 import CharacterCount from './components/Types/String/CharacterCount.vue'
 import IntegerTo from './components/Types/Int/IntTo.vue'
 import HexTo from './components/Types/Hex/HexTo.vue'
+import Dashboard from './components/Dashboard/index.vue'
 
 export default {
   components: {
@@ -44,6 +48,7 @@ export default {
     CharacterCount,
     HexTo,
     IntegerTo,
+    Dashboard
   },
   computed: {
     trimmedInput() {
