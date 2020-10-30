@@ -1,6 +1,6 @@
 <template>
   <div v-if="isHex">
-    <ToNumber v-if="big.lte('1000000000000000')" :big="big" prefix="Hex to decimal: " />
+    <ToNumber v-if="big.lte('10000000000000000000000000000000000000')" :big="big" prefix="Hex to decimal: " />
     <ToString :hex="value" prefix="Hex to string: " />
   </div>
 </template>
