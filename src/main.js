@@ -10,24 +10,6 @@ import Clipboard from 'v-clipboard'
 Vue.use(Clipboard)
 Vue.config.productionTip = false
 
-import TronLibrary from './logic/tron/TronLibrary';
-const TRON_LIBRARY = new TronLibrary();
-
-Vue.mixin({
-  data: function() {
-    return {
-      get tronLibrary() {
-        return TRON_LIBRARY;
-      }
-    }
-  }
-})
-
-Vue.filter('trx', function (value) {
-  if (value === undefined) return undefined
-  return new BigNumber(value).div(1000000).toFormat() + ' TRX';
-})
-
 Vue.filter('number', function (value) {
   if (!value) return ''
   return new BigNumber(value).toFormat();
