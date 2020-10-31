@@ -17,12 +17,12 @@
         <span class="label">value:</span> {{tx.value | toDai}}
       </span>
       <div>
-      <span class="label">from: 0x</span><a :href="'https://blockscout.com/poa/xdai/address/' + tx.from">{{tx.from | address}}</a>
+      <span class="indent label">0x</span><a :href="'https://blockscout.com/poa/xdai/address/' + tx.from">{{tx.from | address}}</a>
       </div>
-      <span v-if="tx.error">
+      <span v-if="tx.error" class="error">
         {{tx.error}}
       </span>
-      <div class="time">
+      <div class="indent label">
         <timeago :datetime="tx.time * 1000" :auto-update="1"></timeago>
       </div>
     </div>
@@ -53,7 +53,7 @@ export default {
   } ,
   asyncComputed: {
     async image() {
-      if(this.tx.params[0].name === 'token' && this.tx.params[0].value == "0x86f78cd3f6e6a93b996fede81ed964b0fa1414e1") {
+      if(this.tx.params[0].name === 'token' && this.tx.params[1].name === "id") {
         return await getImageUri(this.tx.params[0].value, this.tx.params[1].value);
       } else {
         return undefined;
@@ -67,8 +67,7 @@ export default {
 .label {
   font-size: .5em;
 }
-.time {
-  font-size: .5em;
+.indent {
   padding-left: 2em;
 }
 .thumbnail {
@@ -91,5 +90,9 @@ export default {
 .row {
   border-bottom: 1px solid;
   padding: 0.5em;
+}
+.error {
+  font-size: 2em;
+  color: red;
 }
 </style>
