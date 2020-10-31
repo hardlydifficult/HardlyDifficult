@@ -1,7 +1,7 @@
 <template>
   <span v-if="test">
-  <span class="small">
-    -- {{test.fetchedCoinBalance | toDai }} TVL
+  <span class="small" style="padding-left: .8em">
+    {{test.fetchedCoinBalance | toDai }} TVL
   </span>
   <br />
   <div v-for="t in transactions" v-bind:key="t.hash">
