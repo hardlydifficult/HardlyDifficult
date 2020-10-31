@@ -2121,6 +2121,7 @@ export async function getMetadata(token, tokenId) {
   return {
     image: json.data.video?.thumbnail ?? json.data.image,
     name: json.data.name,
-    brandImage: json.data.brandProfileImageUrl
+    brandImage: json.data.brandProfileImageUrl,
+    id: tokenId
   };
 }
