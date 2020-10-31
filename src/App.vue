@@ -7,10 +7,7 @@
       </div>
       <div v-if="trimmedInput">
         <br>
-        <div class="topicBox">
-          <div class="topicHeader">
-            Type conversions
-          </div>
+        <div>
           <HexTo :value="trimmedInput" />
           <IntegerTo :value="trimmedInput" />
         </div>
@@ -18,19 +15,6 @@
     </div>
     <div>
       <Dashboard />
-    </div>
-    <div class="footer">
-      <a href="https://github.com/hardlydifficult/HardlyDifficult/issues/new">Issues, suggestions: let me know</a>
-      <br><br>
-      Support development of this tool: tip with
-        <span v-tooltip="'3EPAsFwUBh1JvPJVqoycXpYVfDE4v3WdQ1'" v-on:click="$clipboard('3EPAsFwUBh1JvPJVqoycXpYVfDE4v3WdQ1')">
-          BTC
-        </span>
-        or
-        <span v-tooltip="'0x7A23608a8eBe71868013BDA0d900351A83bb4Dc2'" v-on:click="$clipboard('0x7A23608a8eBe71868013BDA0d900351A83bb4Dc2')">
-          ETH
-        </span>
-        (click to copy address)
     </div>
   </div>
 </template>

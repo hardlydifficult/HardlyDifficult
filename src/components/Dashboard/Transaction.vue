@@ -25,7 +25,6 @@ export default {
   },
   computed: {
     params() {
-      console.log(this.tx.params[0])
       if(this.tx.params[0].name === 'token' && this.tx.params[0].value == "0x86f78cd3f6e6a93b996fede81ed964b0fa1414e1") {
         return [{name: "tokenId", value: this.tx.params[1].value}, ...this.tx.params.slice(2)]
       } else {
