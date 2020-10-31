@@ -7,8 +7,8 @@
           <source :src="metadata.image" />
         </video>
         <img v-else :src="metadata.image" class="thumbnail"/>
-        </a>
         <div v-if="metadata.name" class="label">{{metadata.name}}</div>
+        </a>
       </span>
     </div>
     
