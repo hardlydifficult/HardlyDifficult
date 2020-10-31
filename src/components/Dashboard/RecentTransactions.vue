@@ -28,7 +28,7 @@ export default {
       query: gql`query($address: AddressHash!) {
       test: address(hash: $address) {
         fetchedCoinBalance,
-        transactions (first: 20) {
+        transactions (first: 10) {
           edges {
             node {
               error
