@@ -77,6 +77,7 @@ Vue.filter('percent', function (value) {
 
 new Vue({
   store,
-  apolloProvider: createProvider({httpEndpoint: "https://api.thegraph.com/subgraphs/name/f8n/f8n-xdai"}),
+  // TODO add https://api.thegraph.com/subgraphs/name/f8n/f8n-xdai
+  apolloProvider: createProvider({httpEndpoint: "https://blockscout.com/poa/xdai/graphiql"}),
   render: h => h(App)
 }).$mount('#app')
