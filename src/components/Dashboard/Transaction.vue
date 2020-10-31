@@ -1,12 +1,15 @@
 <template>
   <div class="row">
     <div class="imageBlock">
-      <a v-if="image && params.length > 0 && params[0].name === 'id'" :href="'https://foundation.app/nft/nft-' + params[0].value">
-      <video v-if="image.endsWith('.mp4')" autoplay muted loop class="thumbnail">
-        <source :src="image" />
-      </video>
-      <img v-else :src="image" class="thumbnail"/>
-      </a>
+      <span v-if="metadata">
+        <a v-if="params.length > 0 && params[0].name === 'id'" :href="'https://foundation.app/nft/nft-' + params[0].value">
+        <video v-if="metadata.image.endsWith('.mp4')" autoplay muted loop class="thumbnail">
+          <source :src="metadata.image" />
+        </video>
+        <img v-else :src="metadata.image" class="thumbnail"/>
+        </a>
+        <div v-if="metadata.name" class="label">{{metadata.name}}</div>
+      </span>
     </div>
     
     <div class="inline">
@@ -30,7 +33,7 @@
 </template>
 
 <script>
-import { getImageUri } from '../../logic/foundation/NFTMarket';
+import { getMetadata } from '../../logic/foundation/NFTMarket';
 export default {
   props: {
     tx: undefined,
@@ -52,9 +55,9 @@ export default {
     },
   } ,
   asyncComputed: {
-    async image() {
+    async metadata() {
       if(this.tx.params[0].name === 'token' && this.tx.params[1].name === "id") {
-        return await getImageUri(this.tx.params[0].value, this.tx.params[1].value);
+        return await getMetadata(this.tx.params[0].value, this.tx.params[1].value);
       } else {
         return undefined;
       }

@@ -2114,9 +2114,13 @@ export async function toTx(tx) {
   return {...txInfo, value: tx.node.value, error: tx.error, from: tx.node.fromAddressHash, hash: tx.node.hash, time};
 }
 
-export async function getImageUri(token, tokenId) {
+export async function getMetadata(token, tokenId) {
   const nftContract = new web3.eth.Contract(nftABI, token);
   const jsonURL = await nftContract.methods.tokenURI(tokenId).call();
   const json = await axios.get(jsonURL);
-  return json.data.video?.thumbnail ?? json.data.image;
+  return {
+    image: json.data.video?.thumbnail ?? json.data.image,
+    name: json.data.name,
+    brandImage: json.data.brandProfileImageUrl
+  };
 }
