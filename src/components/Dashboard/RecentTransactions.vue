@@ -66,7 +66,7 @@ export default {
 
 <style scoped>
 .small {
-  font-size: .75em;
+  font-size: .8em;
 }
 .inline {
   display: inline-block;
