@@ -5,9 +5,8 @@
   </span>
   <br />
   <div v-for="t in transactions" v-bind:key="t.hash">
-  <Transaction :tx="t" />
+    <Transaction :tx="t" />
   </div>
-
   </span>
 </template>
 
@@ -68,5 +67,8 @@ export default {
 <style scoped>
 .small {
   font-size: .75em;
+}
+.inline {
+  display: inline-block;
 }
 </style>
