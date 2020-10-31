@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="imageBlock">
-      <a v-if="image && params[0].name === 'id'" :href="'https://foundation.app/nft/nft-' + params[0].value">
+      <a v-if="image && params.length > 0 && params[0].name === 'id'" :href="'https://foundation.app/nft/nft-' + params[0].value">
       <video v-if="image.endsWith('.mp4')" autoplay muted loop class="thumbnail">
         <source :src="image" />
       </video>
@@ -37,11 +37,18 @@ export default {
   },
   computed: {
     params() {
+      let params;
       if(this.tx.params[0].name === 'token' && this.tx.params[0].value == "0x86f78cd3f6e6a93b996fede81ed964b0fa1414e1") {
-        return [{name: "id", value: this.tx.params[1].value}, ...this.tx.params.slice(2)]
+        params = [{name: "id", value: this.tx.params[1].value}, ...this.tx.params.slice(2)]
       } else {
-        return this.tx.params;
+        params = this.tx.params;
       }
+      
+      if(params.find(p => p.name === "maxBid")?.value?.toString() === this.tx.value?.toString()) {
+        params = params.filter(p => p.name !== "maxBid")
+      }
+      
+      return params;
     },
   } ,
   asyncComputed: {
