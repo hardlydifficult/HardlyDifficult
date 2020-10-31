@@ -19,7 +19,7 @@
       <div>
       <span class="label">from: 0x</span><a :href="'https://blockscout.com/poa/xdai/address/' + tx.from">{{tx.from | address}}</a>
       </div>
-      <span v-if="tx.error">
+      <span v-if="tx.error" class="error">
         {{tx.error}}
       </span>
       <div class="time">
@@ -91,5 +91,9 @@ export default {
 .row {
   border-bottom: 1px solid;
   padding: 0.5em;
+}
+.error {
+  font-size: 2em;
+  color: red;
 }
 </style>
