@@ -6,35 +6,35 @@
 export default {
   props: {
     hex: undefined,
-    prefix: undefined
+    prefix: undefined,
   },
   computed: {
     value() {
-      if(!this.hex) return '';
-      let result = '';
+      if (!this.hex) return "";
+      let result = "";
       let maxCharCount = 0;
       let charCount = 0;
-      for(var i = 0; i < this.hex.length; i += 2)
-      {
+      for (var i = 0; i < this.hex.length; i += 2) {
         let code = parseInt(this.hex.substr(i, 2), 16);
-        if(code >= 32 && code <= 126)
-        {
+        if (code >= 32 && code <= 126) {
           result += String.fromCharCode(code);
-          if(code > 32) 
-          {
+          if (code > 32) {
             charCount++;
           }
-        }
-        else
-        {
+        } else {
           result += "•";
           charCount = 0;
         }
         maxCharCount = Math.max(maxCharCount, charCount);
       }
       result = result.trim();
-      return {isString: result.length >= 1 && (maxCharCount >= 3 || maxCharCount >= result.length - 1), result};
-    }
-  }
-}
+      return {
+        isString:
+          result.length >= 1 &&
+          (maxCharCount >= 3 || maxCharCount >= result.length - 1),
+        result,
+      };
+    },
+  },
+};
 </script>

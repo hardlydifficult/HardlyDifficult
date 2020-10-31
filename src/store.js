@@ -1,14 +1,14 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 const state = {
-  userInput: window.location.hash.substr(1)
-}
+  userInput: window.location.hash.substr(1),
+};
 
 const store = new Vuex.Store({
-  state
+  state,
 });
 
 export default store;

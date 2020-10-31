@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="bodyContent">
-      <div style="text-align:center">
+      <div style="text-align: center">
         <InputTextArea :value="trimmedInput" />
         <CharacterCount :value="trimmedInput" />
       </div>
       <div v-if="trimmedInput">
-        <br>
+        <br />
         <div>
           <HexTo :value="trimmedInput" />
           <IntegerTo :value="trimmedInput" />
@@ -20,11 +20,11 @@
 </template>
 
 <script>
-import InputTextArea from './components/Input/TextArea.vue'
-import CharacterCount from './components/Types/String/CharacterCount.vue'
-import IntegerTo from './components/Types/Int/IntTo.vue'
-import HexTo from './components/Types/Hex/HexTo.vue'
-import Dashboard from './components/Dashboard/index.vue'
+import InputTextArea from "./components/Input/TextArea.vue";
+import CharacterCount from "./components/Types/String/CharacterCount.vue";
+import IntegerTo from "./components/Types/Int/IntTo.vue";
+import HexTo from "./components/Types/Hex/HexTo.vue";
+import Dashboard from "./components/Dashboard/index.vue";
 
 export default {
   components: {
@@ -32,32 +32,29 @@ export default {
     CharacterCount,
     HexTo,
     IntegerTo,
-    Dashboard
+    Dashboard,
   },
   computed: {
     trimmedInput() {
       const input = this.$store.state.userInput.trim();
       window.location.hash = input;
       return input;
-    }
+    },
   },
-  mounted: function() {
+  mounted: function () {
     const updateHash = () => {
-      if(!window.location.hash || window.location.hash.length < 1) return;
+      if (!window.location.hash || window.location.hash.length < 1) return;
       this.$store.state.userInput = window.location.hash.substr(1);
     };
-    window.addEventListener('hashchange', updateHash);
+    window.addEventListener("hashchange", updateHash);
   },
-}
-
-
-
+};
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono|Open+Sans');
+@import url("https://fonts.googleapis.com/css?family=Roboto+Mono|Open+Sans");
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   margin: 0;
 }
 .bodyContent {
@@ -72,13 +69,13 @@ ul {
 }
 .elipse {
   font-family: sans-serif;
-  font-size: .5em;
+  font-size: 0.5em;
 }
 .small {
-  font-size: .6em;
+  font-size: 0.6em;
 }
 .details {
-  font-size: .6em;
+  font-size: 0.6em;
   margin-left: 1em;
 }
 .topicBox {
@@ -107,21 +104,20 @@ a:active {
   color: red;
 }
 .dataGroup {
-  margin-bottom: .75em;
+  margin-bottom: 0.75em;
 }
 
 .paramName {
-  font-size: .6em;
+  font-size: 0.6em;
 }
 .footer {
-  font-size: .6em;
+  font-size: 0.6em;
   margin-top: 4em;
   margin-bottom: 2em;
   padding-top: 1em;
   padding-left: 1em;
   border-top: 1px solid green;
 }
-
 
 .tooltip {
   display: block !important;
@@ -203,16 +199,16 @@ a:active {
     }
   }
 
-  &[aria-hidden='true'] {
+  &[aria-hidden="true"] {
     visibility: hidden;
     opacity: 0;
-    transition: opacity .15s, visibility .15s;
+    transition: opacity 0.15s, visibility 0.15s;
   }
 
-  &[aria-hidden='false'] {
+  &[aria-hidden="false"] {
     visibility: visible;
     opacity: 1;
-    transition: opacity .15s;
+    transition: opacity 0.15s;
   }
 }
 </style>
