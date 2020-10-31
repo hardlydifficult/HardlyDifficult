@@ -2118,6 +2118,5 @@ export async function getImageUri(token, tokenId) {
   const nftContract = new web3.eth.Contract(nftABI, token);
   const jsonURL = await nftContract.methods.tokenURI(tokenId).call();
   const json = await axios.get(jsonURL);
-  console.log(json);
   return json.data.video?.thumbnail ?? json.data.image;
 }
