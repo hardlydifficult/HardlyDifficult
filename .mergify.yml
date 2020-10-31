@@ -1,4 +1,13 @@
 pull_request_rules:
+  - name: me
+    conditions:
+      - author=nickcuso
+      - "#status-failure=0"
+      - "#label=0"
+    actions:
+      label:
+        add: ["auto-merge"]
+
   - name: renovate
     conditions:
       - author=renovate[bot]
