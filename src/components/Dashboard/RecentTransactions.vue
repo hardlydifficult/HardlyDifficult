@@ -1,14 +1,14 @@
 <template>
-  <div v-if="test">
-  <div>
-  {{test.fetchedCoinBalance | toDai }} TVL
-  </div>
+  <span v-if="test">
+  <span class="small">
+    -- {{test.fetchedCoinBalance | toDai }} TVL
+  </span>
   <br />
   <div v-for="t in transactions" v-bind:key="t.hash">
   <Transaction :tx="t" />
   </div>
 
-  </div>
+  </span>
 </template>
 
 <script>
@@ -64,3 +64,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.small {
+  font-size: .75em;
+}
+</style>
