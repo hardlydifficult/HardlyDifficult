@@ -7,7 +7,7 @@
     <span v-if="tx.value > 0">
       <span class="label">value:</span> {{tx.value | toDai}}
     </span>
-    <span class="label">from: 0x</span>{{tx.from | address}} 
+    <span class="label">from: 0x</span><a :href="'https://blockscout.com/poa/xdai/address/' + tx.from">{{tx.from | address}}</a>
     <span v-if="tx.error">
       {{tx.error}}
     </span>
