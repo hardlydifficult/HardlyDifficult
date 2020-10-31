@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row" v-if="tokenId && tokenId !== '47'">
     <div class="imageBlock">
       <span v-if="metadata">
         <a v-if="tokenId" :href="'https://foundation.app/nft/nft-' + tokenId">
