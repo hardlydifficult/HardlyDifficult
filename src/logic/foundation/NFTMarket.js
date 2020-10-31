@@ -1208,6 +1208,11 @@ abiDecoder.addABI([
 
 export async function toTx(tx) {
   const txInfo = await abiDecoder.decodeMethod(tx.node.input)
-  const time = (await web3.eth.getBlock(tx.node.blockNumber)).timestamp;
+  let time;
+  if(tx.node.blockNumber) {
+    time = (await web3.eth.getBlock(tx.node.blockNumber)).timestamp;
+  } else {
+    time = Date.now() / 1000;
+  }
   return {...txInfo, value: tx.node.value, error: tx.error, from: tx.node.fromAddressHash, hash: tx.node.hash, time};
 }
