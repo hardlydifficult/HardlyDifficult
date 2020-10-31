@@ -95,7 +95,7 @@ Vue.filter('toDai', function (value) {
 
 Vue.filter('address', function (value) {
   if (!value) return ''
-  return `${value.substr(2, 4)}..${value.substr(value.length - 4)}`;
+  return `${value.substr(2, 2)}..${value.substr(value.length - 4)}`;
 })
 
 new Vue({
