@@ -1,21 +1,27 @@
 <template>
   <div class="row">
     <div class="imageBlock">
-      <a v-if="image && params.length > 0 && params[0].name === 'id'" :href="'https://foundation.app/nft/nft-' + params[0].value">
-      <video v-if="image.endsWith('.mp4')" autoplay muted loop class="thumbnail">
-        <source :src="image" />
-      </video>
-      <img v-else :src="image" class="thumbnail"/>
-      </a>
+      <span v-if="metadata">
+        <a v-if="tokenId" :href="'https://foundation.app/nft/nft-' + tokenId">
+        <video v-if="metadata.image.endsWith('.mp4')" autoplay muted loop class="thumbnail">
+          <source :src="metadata.image" />
+        </video>
+        <img v-else :src="metadata.image" class="thumbnail"/>
+        <div v-if="metadata.name" class="label">{{metadata.name}} ({{tokenId}})</div>
+        </a>
+      </span>
     </div>
     
     <div class="inline">
-      <a :href="'https://blockscout.com/poa/xdai/tx/' + tx.hash">{{ tx.name }}(<span v-for="(p, index) in params" v-bind:key="p.name">
-      <span v-if="index > 0">, </span><span class="label">{{p.name}}:</span> <span v-if="p.name.includes('Bid')">{{p.value | toDai}}</span><span v-else>{{p.value}}</span></span>)</a>
-      &nbsp;
-      <span v-if="tx.value > 0">
-        <span class="label">value:</span> {{tx.value | toDai}}
+      <a :href="'https://blockscout.com/poa/xdai/tx/' + tx.hash">{{ tx.name }}<span v-if="params.length > 0">(<span v-for="(p, index) in params" v-bind:key="p.name">
+      <span v-if="index > 0">, </span><span class="label">{{p.name}}:</span> <span v-if="p.name.includes('Bid')">{{p.value | toDai}}</span><span v-else>{{p.value}}</span></span>)
       </span>
+      <span v-if="tx.value > 0">
+        <span class="label">
+        value:
+        </span> {{tx.value | toDai}}
+      </span>
+      </a>
       <div>
       <span class="indent label">0x</span><a :href="'https://blockscout.com/poa/xdai/address/' + tx.from">{{tx.from | address}}</a>
       </div>
@@ -30,7 +36,7 @@
 </template>
 
 <script>
-import { getImageUri } from '../../logic/foundation/NFTMarket';
+import { getMetadata } from '../../logic/foundation/NFTMarket';
 export default {
   props: {
     tx: undefined,
@@ -39,7 +45,7 @@ export default {
     params() {
       let params;
       if(this.tx.params[0].name === 'token' && this.tx.params[0].value == "0x86f78cd3f6e6a93b996fede81ed964b0fa1414e1") {
-        params = [{name: "id", value: this.tx.params[1].value}, ...this.tx.params.slice(2)]
+        params = [...this.tx.params.slice(2)]
       } else {
         params = this.tx.params;
       }
@@ -50,11 +56,17 @@ export default {
       
       return params;
     },
+    tokenId() {
+      if(this.tx.params[0].name === 'token' && this.tx.params[1].name === "id") {
+        return this.tx.params[1].value;
+      }
+      return undefined
+    }
   } ,
   asyncComputed: {
-    async image() {
+    async metadata() {
       if(this.tx.params[0].name === 'token' && this.tx.params[1].name === "id") {
-        return await getImageUri(this.tx.params[0].value, this.tx.params[1].value);
+        return await getMetadata(this.tx.params[0].value, this.tx.params[1].value);
       } else {
         return undefined;
       }
