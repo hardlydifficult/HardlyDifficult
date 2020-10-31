@@ -11,6 +11,19 @@ import { createProvider } from './vue-apollo'
 Vue.use(Clipboard)
 Vue.config.productionTip = false
 
+import VueTimeago from 'vue-timeago'
+
+Vue.use(VueTimeago, {
+  name: 'Timeago', // Component name, `Timeago` by default
+  locale: 'en', // Default locale
+  // We use `date-fns` under the hood
+  // So you can use all locales from it
+  locales: {
+    'zh-CN': require('date-fns/locale/zh_cn'),
+    ja: require('date-fns/locale/ja')
+  }
+})
+
 Vue.filter('number', function (value) {
   if (!value) return ''
   return new BigNumber(value).toFormat();
@@ -73,6 +86,16 @@ Vue.filter('lowercase', function (value) {
 Vue.filter('percent', function (value) {
   if (!value) return ''
   return `${new BigNumber(value).times(100).toFormat(2)}%`;
+})
+
+Vue.filter('toDai', function (value) {
+  if (!value) return ''
+  return `$${new BigNumber(value).shiftedBy(-18).toFormat(2)}`;
+})
+
+Vue.filter('address', function (value) {
+  if (!value) return ''
+  return `${value.substr(2, 4)}..${value.substr(value.length - 4)}`;
 })
 
 new Vue({
