@@ -14,11 +14,12 @@
     
     <div class="inline">
       <a :href="'https://blockscout.com/poa/xdai/tx/' + tx.hash">{{ tx.name }}(<span v-for="(p, index) in params" v-bind:key="p.name">
-      <span v-if="index > 0">, </span><span class="label">{{p.name}}:</span> <span v-if="p.name.includes('Bid')">{{p.value | toDai}}</span><span v-else>{{p.value}}</span></span>)</a>
-      &nbsp;
+      <span v-if="index > 0">, </span><span class="label">{{p.name}}:</span> <span v-if="p.name.includes('Bid')">{{p.value | toDai}}</span><span v-else>{{p.value}}</span></span>)
       <span v-if="tx.value > 0">
+        &nbsp;
         <span class="label">value:</span> {{tx.value | toDai}}
       </span>
+      </a>
       <div>
       <span class="indent label">0x</span><a :href="'https://blockscout.com/poa/xdai/address/' + tx.from">{{tx.from | address}}</a>
       </div>
