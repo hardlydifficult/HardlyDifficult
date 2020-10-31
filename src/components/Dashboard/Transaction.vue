@@ -53,7 +53,7 @@ export default {
   } ,
   asyncComputed: {
     async image() {
-      if(this.tx.params[0].name === 'token' && this.tx.params[0].value == "0x86f78cd3f6e6a93b996fede81ed964b0fa1414e1") {
+      if(this.tx.params[0].name === 'token' && this.tx.params[1].name === "id") {
         return await getImageUri(this.tx.params[0].value, this.tx.params[1].value);
       } else {
         return undefined;
