@@ -13,7 +13,7 @@
     </div>
     
     <div class="inline">
-      <a :href="'https://blockscout.com/poa/xdai/tx/' + tx.hash"><span class="bold">{{ tx.name }}</span><span v-if="params.length > 0 || tx.value > 0">(<span v-for="(p, index) in params" v-bind:key="p.name">
+      <a :href="'https://blockscout.com/poa/xdai/tx/' + tx.hash"><span class="bold">{{ tx.name }}</span><span v-if="params.length > 0 || tx.value > 0" class="small">(<span v-for="(p, index) in params" v-bind:key="p.name">
       <span v-if="index > 0">, </span><span class="label">{{p.name}}:</span> <span v-if="p.name.includes('Bid')">{{p.value | toDai}}</span><span v-else>{{p.value}}</span></span>
       <span v-if="tx.value > 0">
         <span v-if="params.length > 0">, </span>
@@ -76,7 +76,7 @@ export default {
 
 <style scoped>
 .label {
-  font-size: .5em;
+  font-size: .5rem;
 }
 .indent {
   padding-left: 2em;
@@ -108,5 +108,8 @@ export default {
 }
 .bold {
   font-weight: 600;
+}
+.small {
+  font-size: .8em;
 }
 </style>
