@@ -1,6 +1,6 @@
 <template>
   <div style="padding: 1em">
-    <h3>NFT Market</h3>
+    <span class="bold">NFT Market</span>
     <RecentTransactions network="xdai" address="0xE8Bfc092Df01243A3f8F6990e22454bcaF44C774" />
   </div>
 </template>
@@ -14,3 +14,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.bold {
+  font-weight: 600;
+}
+</style>
