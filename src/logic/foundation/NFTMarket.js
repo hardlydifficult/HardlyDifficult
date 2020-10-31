@@ -2119,9 +2119,8 @@ export async function getMetadata(token, tokenId) {
   const jsonURL = await nftContract.methods.tokenURI(tokenId).call();
   const json = await axios.get(jsonURL);
   return {
-    image: json.data.video?.thumbnail ?? json.data.image,
+    image: json.data.video?.static ?? json.data.image,
     name: json.data.name,
-    brandImage: json.data.brandProfileImageUrl,
     id: tokenId
   };
 }
