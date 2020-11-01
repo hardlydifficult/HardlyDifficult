@@ -1,72 +1,75 @@
 <template>
   <span v-if="test">
-  <span class="small" style="padding-left: .8em">
-    {{test.fetchedCoinBalance | toDai }} TVL
-  </span>
-  <br />
-  <div v-for="t in transactions" v-bind:key="t.hash">
-    <Transaction :tx="t" />
-  </div>
+    <span class="small" style="padding-left: 0.8em">
+      {{ test.fetchedCoinBalance | toDai }} TVL
+    </span>
+    <br />
+    <div v-for="t in transactions" v-bind:key="t.hash">
+      <Transaction :tx="t" />
+    </div>
   </span>
 </template>
 
 <script>
-import gql from 'graphql-tag'
-import {toTx} from '../../logic/foundation/NFTMarket'
-import Transaction from './Transaction';
+import gql from "graphql-tag";
+import { toTx } from "../../logic/foundation/NFTMarket";
+import Transaction from "./Transaction";
 
 export default {
   props: {
     address: undefined,
   },
   components: {
-    Transaction
+    Transaction,
   },
   apollo: {
     test: {
-      query: gql`query($address: AddressHash!) {
-      test: address(hash: $address) {
-        fetchedCoinBalance,
-        transactions (first: 20) {
-          edges {
-            node {
-              error
-              input
-              value
-              fromAddressHash
-              hash
-              blockNumber
+      query: gql`
+        query($address: AddressHash!) {
+          test: address(hash: $address) {
+            fetchedCoinBalance
+            transactions(first: 20) {
+              edges {
+                node {
+                  error
+                  input
+                  value
+                  fromAddressHash
+                  hash
+                  blockNumber
+                }
+              }
             }
           }
         }
-      }
-    }`,
-    pollInterval: 5000, variables() {
-      return {
-        address: this.address
-      }
-    }
-    }
+      `,
+      pollInterval: 5000,
+      variables() {
+        return {
+          address: this.address,
+        };
+      },
+      client: "xdai",
+    },
   },
-  data: function() {
+  data: function () {
     return {
-      test: undefined
-    }
+      test: undefined,
+    };
   },
   asyncComputed: {
-
     transactions() {
-      if(!this.test) return [];
+      if (!this.test) return [];
       return Promise.all(this.test.transactions.edges.map((t) => toTx(t)));
-        //return this.test.transactions.edges.map(toTx);
-    }
-  }
-}
+      //return this.test.transactions.edges.map(toTx);
+    },
+  },
+};
 </script>
 
 <style scoped>
 .small {
-  font-size: .8em;
+  font-size: 0.8em;
 }
 .inline {
   display: inline-block;
