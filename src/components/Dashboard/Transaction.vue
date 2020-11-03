@@ -27,7 +27,11 @@
           >(<span v-for="(p, index) in params" v-bind:key="p.name">
             <span v-if="index > 0">, </span
             ><span class="label">{{ p.name }}:</span>
-            <span v-if="p.name.includes('Bid')">{{ p.value | toDai }}</span
+            <span
+              v-if="
+                p.name.includes('Bid') || p.name.toLowerCase().includes('value')
+              "
+              >{{ p.value | toDai }}</span
             ><span v-else>{{ p.value }}</span></span
           >
           <span v-if="tx.value > 0">
