@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "vue serve src/main.js",
-    "build": "vue build src/main.js",
+    "build": "vue build src/main.js && cd dist",
     "lint": "eslint --ext js,vue . && npmPkgJsonLint .",
     "lintFix": "eslint --ext js,vue . --fix && npmPkgJsonLint . --fix"
   },
