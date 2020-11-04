@@ -46,6 +46,10 @@
       />
       <BalanceOf
         address="0x795d891c45caafc03de7fcf7e01da3f744190207"
+        name="CHRISDORLAND"
+      />
+      <BalanceOf
+        address="0x848e35bae634ee1491b7a3b60a63834df4584965"
         name="CICIARAN"
       />
       <BalanceOf
