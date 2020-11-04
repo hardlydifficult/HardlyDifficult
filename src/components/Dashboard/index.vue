@@ -18,7 +18,7 @@
       />
     </div>
     <div class="inline">
-      <div class="title fnd">BALANCES</div>
+      <div>Balances</div>
       <BalanceOf
         address="0xFa773FEF155878886a86188FDfA804ff5dbe37b8"
         name="Foundation"
