@@ -211,4 +211,9 @@ a:active {
     transition: opacity 0.15s;
   }
 }
+
+.title {
+  font-weight: 600;
+  font-size: 1.5em;
+}
 </style>

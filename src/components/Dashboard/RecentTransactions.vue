@@ -1,32 +1,44 @@
 <template>
-  <span v-if="test">
-    <span class="small" style="padding-left: 0.8em">
-      {{ test.fetchedCoinBalance | toDai }} TVL
+  <div class="inline">
+    <span class="title"
+      ><a :href="'https://blockscout.com/poa/xdai/address/' + address">{{
+        title
+      }}</a></span
+    >
+    <span v-if="contractTransactions">
+      <span
+        class="small"
+        style="padding-left: 0.8em"
+        v-if="contractTransactions.fetchedCoinBalance != '0'"
+      >
+        {{ contractTransactions.fetchedCoinBalance | toDai }}
+      </span>
+      <br />
+      <div v-for="t in transactions" v-bind:key="t.hash">
+        <Transaction :tx="t" />
+      </div>
     </span>
-    <br />
-    <div v-for="t in transactions" v-bind:key="t.hash">
-      <Transaction :tx="t" />
-    </div>
-  </span>
+  </div>
 </template>
 
 <script>
 import gql from "graphql-tag";
-import { toTx } from "../../logic/foundation/NFTMarket";
+import { toTx } from "../../logic/foundation/ToTx";
 import Transaction from "./Transaction";
 
 export default {
   props: {
     address: undefined,
+    title: undefined,
   },
   components: {
     Transaction,
   },
   apollo: {
-    test: {
+    contractTransactions: {
       query: gql`
         query($address: AddressHash!) {
-          test: address(hash: $address) {
+          contractTransactions: address(hash: $address) {
             fetchedCoinBalance
             transactions(first: 20) {
               edges {
@@ -43,7 +55,7 @@ export default {
           }
         }
       `,
-      pollInterval: 5000,
+      pollInterval: 15000,
       variables() {
         return {
           address: this.address,
@@ -54,14 +66,15 @@ export default {
   },
   data: function () {
     return {
-      test: undefined,
+      contractTransactions: undefined,
     };
   },
   asyncComputed: {
     transactions() {
-      if (!this.test) return [];
-      return Promise.all(this.test.transactions.edges.map((t) => toTx(t)));
-      //return this.test.transactions.edges.map(toTx);
+      if (!this.contractTransactions) return [];
+      return Promise.all(
+        this.contractTransactions.transactions.edges.map((t) => toTx(t))
+      );
     },
   },
 };
@@ -70,8 +83,5 @@ export default {
 <style scoped>
 .small {
   font-size: 0.8em;
-}
-.inline {
-  display: inline-block;
 }
 </style>

@@ -1,6 +1,9 @@
 <template>
-  <div class="row" v-if="tokenId && tokenId !== '47'">
-    <div class="imageBlock">
+  <div
+    class="row"
+    :class="new Date() / 1000 - tx.time > 24 * 60 * 60 ? 'grey' : ''"
+  >
+    <div v-if="tokenId" class="imageBlock">
       <span v-if="metadata">
         <a v-if="tokenId" :href="'https://foundation.app/nft/nft-' + tokenId">
           <video
@@ -14,7 +17,7 @@
           </video>
           <img v-else :src="metadata.image" class="thumbnail" />
           <div v-if="metadata.name" class="label">
-            {{ metadata.name }} ({{ tokenId }})
+            {{ metadata.name | shortTitle }} ({{ tokenId }})
           </div>
         </a>
       </span>
@@ -23,16 +26,13 @@
     <div class="inline">
       <a :href="'https://blockscout.com/poa/xdai/tx/' + tx.hash"
         ><span class="bold">{{ tx.name }}</span
-        ><span v-if="params.length > 0 || tx.value > 0" class="small"
+        ><span
+          v-if="(params && params.length > 0) || tx.value > 0"
+          class="small"
           >(<span v-for="(p, index) in params" v-bind:key="p.name">
             <span v-if="index > 0">, </span
-            ><span class="label">{{ p.name }}:</span>
-            <span
-              v-if="
-                p.name.includes('Bid') || p.name.toLowerCase().includes('value')
-              "
-              >{{ p.value | toDai }}</span
-            ><span v-else>{{ p.value }}</span></span
+            ><span class="label">{{ p.name }}:</span
+            ><span>{{ p | txValue }}</span></span
           >
           <span v-if="tx.value > 0">
             <span v-if="params.length > 0">, </span>
@@ -45,10 +45,10 @@
         ><a :href="'https://blockscout.com/poa/xdai/address/' + tx.from">{{
           tx.from | address
         }}</a>
+        <span v-if="tx.error" class="error">
+          {{ tx.error }}
+        </span>
       </div>
-      <span v-if="tx.error" class="error">
-        {{ tx.error }}
-      </span>
       <div class="indent label">
         <timeago :datetime="tx.time * 1000" :auto-update="1"></timeago>
       </div>
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { getMetadata } from "../../logic/foundation/NFTMarket";
+import { getMetadata } from "../../logic/foundation/ToTx";
 export default {
   props: {
     tx: undefined,
@@ -66,6 +66,8 @@ export default {
     params() {
       let params;
       if (
+        this.tx.params &&
+        this.tx.params.length >= 1 &&
         this.tx.params[0].name === "token" &&
         this.tx.params[0].value == "0x86f78cd3f6e6a93b996fede81ed964b0fa1414e1"
       ) {
@@ -75,8 +77,9 @@ export default {
       }
 
       if (
+        params &&
         params.find((p) => p.name === "maxBid")?.value?.toString() ===
-        this.tx.value?.toString()
+          this.tx.value?.toString()
       ) {
         params = params.filter((p) => p.name !== "maxBid");
       }
@@ -85,6 +88,8 @@ export default {
     },
     tokenId() {
       if (
+        this.tx.params &&
+        this.tx.params.length >= 2 &&
         this.tx.params[0].name === "token" &&
         this.tx.params[1].name === "id"
       ) {
@@ -96,6 +101,8 @@ export default {
   asyncComputed: {
     async metadata() {
       if (
+        this.tx.params &&
+        this.tx.params.length >= 2 &&
         this.tx.params[0].name === "token" &&
         this.tx.params[1].name === "id"
       ) {
@@ -136,11 +143,13 @@ export default {
   vertical-align: top;
 }
 .row {
-  border-bottom: 1px solid;
+  border: 1px solid;
+  margin: 0.5em;
   padding: 0.5em;
+  height: 4em;
 }
 .error {
-  font-size: 2em;
+  font-size: 1.5em;
   color: red;
 }
 .bold {
@@ -148,5 +157,14 @@ export default {
 }
 .small {
   font-size: 0.8em;
+}
+.grey {
+  color: lightgrey;
+}
+.grey a:link {
+  color: lightgrey;
+}
+.grey a:visited {
+  color: lightgrey;
 }
 </style>
