@@ -78,14 +78,66 @@ Vue.filter("percent", function (value) {
   return `${new BigNumber(value).times(100).toFormat(2)}%`;
 });
 
+function shifted(value) {
+  let result = new BigNumber(value).shiftedBy(-18).toFormat(2);
+  if (result.endsWith(".00")) {
+    return result.substr(0, result.length - 3);
+  }
+  return result;
+}
+
+function toDai(value) {
+  return `$${shifted(value)}`;
+}
+
 Vue.filter("toDai", function (value) {
   if (!value) return "";
-  return `$${new BigNumber(value).shiftedBy(-18).toFormat(2)}`;
+  return toDai(value);
 });
+
+function toAddress(value) {
+  return `${value.substr(2, 2)}..${value.substr(value.length - 4)}`;
+}
 
 Vue.filter("address", function (value) {
   if (!value) return "";
-  return `${value.substr(2, 2)}..${value.substr(value.length - 4)}`;
+  return toAddress(value);
+});
+
+function toDate(value) {
+  const date = new Date(Number.parseInt(value) * 1000);
+  let time = date.toLocaleTimeString();
+  time = time.replace(/:00:00 /, "").toLowerCase();
+  return date.toLocaleDateString() + " " + time;
+}
+
+Vue.filter("txValue", function (param) {
+  if (!param || param.value === undefined) return "";
+  if (param.value.startsWith("0x") && param.value.length === 42) {
+    return toAddress(param.value);
+  }
+  const name = param.name.toLowerCase();
+  if (name.includes("date")) {
+    return toDate(param.value);
+  }
+  if (param.value.length > 10) {
+    if (name.includes("token")) {
+      return shifted(param.value);
+    }
+    if (/^\d+$/.test(param.value)) {
+      return toDai(param.value);
+    }
+  }
+  return param.value;
+});
+
+Vue.filter("shortTitle", function (value) {
+  if (!value) return "";
+  const max = 15;
+  if (value.length > max + 2) {
+    return value.substr(0, max) + "..";
+  }
+  return value;
 });
 
 new Vue({
