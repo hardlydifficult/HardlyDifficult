@@ -88,7 +88,7 @@ function shifted(value) {
 
 function toDai(value) {
   const amount = shifted(value);
-  if (amount === "0") {
+  if (amount === "0" && value !== "0") {
     return "<$0.01";
   }
   return `$${amount}`;
