@@ -1,7 +1,11 @@
 <template>
   <div
     class="row"
-    :class="new Date() / 1000 - tx.time > 24 * 60 * 60 ? 'grey' : ''"
+    :class="
+      tokenId === '47' || new Date() / 1000 - tx.time > 24 * 60 * 60
+        ? 'grey'
+        : ''
+    "
   >
     <div v-if="tokenId" class="imageBlock">
       <span v-if="metadata">
