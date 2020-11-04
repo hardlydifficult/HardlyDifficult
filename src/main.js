@@ -87,7 +87,11 @@ function shifted(value) {
 }
 
 function toDai(value) {
-  return `$${shifted(value)}`;
+  const amount = shifted(value);
+  if (amount === "0") {
+    return "<$0.01";
+  }
+  return `$${amount}`;
 }
 
 Vue.filter("toDai", function (value) {
