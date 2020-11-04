@@ -2,7 +2,7 @@
   <div v-if="balance">
     <a :href="'https://blockscout.com/poa/xdai/address/' + address">
       <span
-        class="small"
+        :class="'small ' + (name === name.toUpperCase() ? 'fnd' : '')"
         :style="
           'padding-left: 0.8em;' +
           (balance.fetchedCoinBalance != '0' ? '' : 'color: lightgrey;')

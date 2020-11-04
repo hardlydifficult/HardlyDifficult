@@ -53,9 +53,22 @@ export default {
 
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css?family=Roboto+Mono|Open+Sans");
+
+@font-face {
+  font-family: "Foundation Display";
+  src: url("https://foundation.app/_next/static/media/Foundation-Display.258875a51813d5a495d56533f0aa77f4.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Roboto", "Open Sans", sans-serif;
   margin: 0;
+}
+.fnd {
+  font-family: "Foundation Display", "Roboto", "Open Sans", sans-serif;
 }
 .bodyContent {
   margin: 1em;
@@ -213,7 +226,6 @@ a:active {
 }
 
 .title {
-  font-weight: 600;
-  font-size: 1.5em;
+  font-size: 2em;
 }
 </style>

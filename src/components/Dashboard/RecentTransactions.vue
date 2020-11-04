@@ -1,8 +1,8 @@
 <template>
   <div class="inline">
-    <span class="title"
+    <span class="title fnd"
       ><a :href="'https://blockscout.com/poa/xdai/address/' + address">{{
-        title
+        title.toUpperCase()
       }}</a></span
     >
     <span v-if="contractTransactions">
