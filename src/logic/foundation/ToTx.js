@@ -2979,8 +2979,12 @@ export async function getMetadata(token, tokenId) {
   const nftContract = new web3.eth.Contract(ABI.nft, token);
   const jsonURL = await nftContract.methods.tokenURI(tokenId).call();
   const json = await axios.get(jsonURL);
+  let image = json.data.image;
+  if (json.data.video?.muxPlaybackId) {
+    image = `https://image.mux.com/${json.data.video.muxPlaybackId}/thumbnail.jpg?width=128`;
+  }
   return {
-    image: json.data.video?.static ?? json.data.image,
+    image,
     name: json.data.name,
     id: tokenId,
   };
