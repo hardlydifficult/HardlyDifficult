@@ -134,12 +134,12 @@ export default {
 }
 .imageBlock {
   display: inline-block;
-  width: 6em;
+  width: 5em;
   text-align: center;
-  padding-left: 1em;
-  padding-right: 0.5em;
+  margin: 0 1em 0 1em;
   vertical-align: middle;
   height: 100%;
+  overflow: hidden;
 }
 .inline {
   display: inline-block;
