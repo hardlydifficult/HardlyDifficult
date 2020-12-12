@@ -16,6 +16,9 @@
     <div>
       <Dashboard />
     </div>
+    <div>
+      <BlockCountdown />
+    </div>
   </div>
 </template>
 
@@ -25,6 +28,7 @@ import CharacterCount from "./components/Types/String/CharacterCount.vue";
 import IntegerTo from "./components/Types/Int/IntTo.vue";
 import HexTo from "./components/Types/Hex/HexTo.vue";
 import Dashboard from "./components/Dashboard/index.vue";
+import BlockCountdown from "./components/BlockCountdown.vue";
 
 export default {
   components: {
@@ -33,6 +37,7 @@ export default {
     HexTo,
     IntegerTo,
     Dashboard,
+    BlockCountdown,
   },
   computed: {
     trimmedInput() {
