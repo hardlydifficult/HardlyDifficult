@@ -26,7 +26,7 @@
     "eslint-config-prettier": "7.0.0",
     "eslint-plugin-json": "2.1.2",
     "eslint-plugin-markdown": "1.0.2",
-    "eslint-plugin-prettier": "3.2.0",
+    "eslint-plugin-prettier": "3.3.0",
     "eslint-plugin-vue": "7.2.0",
     "ethers": "5.0.24",
     "graphql-tag": "2.11.0",
