@@ -28,7 +28,7 @@
     "eslint-plugin-markdown": "1.0.2",
     "eslint-plugin-prettier": "3.3.1",
     "eslint-plugin-vue": "7.5.0",
-    "ethers": "5.0.27",
+    "ethers": "5.0.28",
     "graphql-tag": "2.11.0",
     "node-sass": "4.14.1",
     "npm-package-json-lint": "5.1.0",
